@@ -11,9 +11,9 @@ Use ImGui with `import imgui;`. This binding is generated with [cimgui](https://
 
 This repository already contains the generated bindings for the latest ImGui version.
 
-- [`generated/imgui.cppm`](generated/imgui.cppm): exports all symbols in [`imgui.h`](https://github.com/ocornut/imgui/blob/master/imgui.h), can be used as `import imgui;`.
-- [`generated/imgui_internal.cppm`](generated/imgui_internal.cppm): exports all symbols in [`imgui_internal.h`](https://github.com/ocornut/imgui/blob/master/imgui_internal.h), can be used as `import imgui_internal;`. It implicitly exports `imgui` module, therefore you don't have to import `imgui` separately.
-- [`generated/imgui_freetype.cppm`](generated/imgui_freetype.cppm): exports all symbols in [`imgui_freetype.h`](https://github.com/ocornut/imgui/blob/master/misc/freetype/imgui_freetype.h), can be used as `import imgui_freetype;`. It implicitly exports `imgui` module.
+- [`imgui.cppm`](generated/imgui.cppm): exports all symbols in [`imgui.h`](https://github.com/ocornut/imgui/blob/master/imgui.h), can be used as `import imgui;`.
+- [`imgui_internal.cppm`](generated/imgui_internal.cppm): exports all symbols in [`imgui_internal.h`](https://github.com/ocornut/imgui/blob/master/imgui_internal.h), can be used as `import imgui_internal;`. It implicitly exports `imgui` module, therefore you don't have to import `imgui` separately.
+- [`imgui_freetype.cppm`](generated/imgui_freetype.cppm): exports all symbols in [`imgui_freetype.h`](https://github.com/ocornut/imgui/blob/master/misc/freetype/imgui_freetype.h), can be used as `import imgui_freetype;`. It implicitly exports `imgui` module.
 
 And following backends are also available:
 
