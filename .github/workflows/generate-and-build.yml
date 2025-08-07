@@ -13,6 +13,7 @@ jobs:
           - { os: 'windows-latest', compiler: 'msvc' }
           - { os: 'windows-latest', compiler: 'clang' }
           - { os: 'macos-15', compiler: 'clang' }
+          - { os: 'ubuntu-latest', compiler: 'gcc' }
           - { os: 'ubuntu-latest', compiler: 'clang' }
 
     steps:
@@ -35,7 +36,15 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get -y update # https://github.com/actions/runner-images/issues/12599
-          sudo apt-get install -y libc++-dev libc++abi-dev xorg-dev libltdl-dev
+          sudo apt-get install -y xorg-dev libltdl-dev
+
+      - name: Install build dependencies (Ubuntu + GCC)
+        if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc'
+        uses: ./.github/actions/build-gcc-15
+
+      - name: Install build dependencies (Ubuntu + Clang)
+        if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'clang'
+        run: sudo apt-get install -y libc++-dev libc++abi-dev
 
       - name: Enable Developer Command Prompt (Windows + MSVC)
         if: matrix.os == 'windows-latest' && matrix.compiler == 'msvc'
@@ -45,11 +54,20 @@ jobs:
         if: matrix.os == 'macos-15'
         run: sed -i '' 's|libc++.modules.json|../../c++/libc++.modules.json|g' /opt/homebrew/opt/cmake/share/cmake/Modules/Compiler/Clang-CXX-CXXImportStd.cmake # https://gitlab.kitware.com/cmake/cmake/-/issues/25965#note_1523575
 
-      - name: Configure
+      - name: Configure CMake and Build
+        if: matrix.os != 'ubuntu-latest' || matrix.compiler != 'gcc'
         run: |
           mv .github/workflows/scripts/* examples
           cd examples
           cmake --preset=${{ matrix.os }}-${{ matrix.compiler }}
+          cmake --build build --target glfw_vulkan --config Release
 
-      - name: Build
-        run: cmake --build examples/build --target glfw_vulkan --config Release
+      - name: Configure CMake and Build (Ubuntu + GCC)
+        if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc'
+        run: |
+          mv .github/workflows/scripts/* examples
+          cd examples
+          wget https://github.com/Kitware/CMake/releases/download/v4.0.3/cmake-4.0.3-linux-x86_64.tar.gz
+          tar -xf cmake-4.0.3-linux-x86_64.tar.gz
+          cmake-4.0.3-linux-x86_64/bin/cmake --preset=${{ matrix.os }}-${{ matrix.compiler }}
+          cmake-4.0.3-linux-x86_64/bin/cmake --build build --target glfw_vulkan --config Release
