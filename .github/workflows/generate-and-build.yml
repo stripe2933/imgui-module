@@ -9,7 +9,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-15, ubuntu-latest]
+        include:
+          - { os: 'windows-latest', compiler: 'msvc' }
+          - { os: 'windows-latest', compiler: 'clang' }
+          - { os: 'macos-15', compiler: 'clang' }
+          - { os: 'ubuntu-latest', compiler: 'clang' }
 
     steps:
       - uses: actions/checkout@v4
@@ -18,6 +22,10 @@ jobs:
 
       - name: Generate C++ module binding
         run: python3 generate.py
+
+      - name: Install build dependencies (Windows + Clang)
+        if: matrix.os == 'windows-latest' && matrix.compiler == 'clang'
+        run: C:\msys64\usr\bin\bash -lc 'pacman --noconfirm -S mingw-w64-clang-x86_64-clang mingw-w64-clang-x86_64-libc++ mingw-w64-clang-x86_64-libwinpthread-git'
 
       - name: Install build dependencies (macOS)
         if: matrix.os == 'macos-15'
@@ -29,8 +37,8 @@ jobs:
           sudo apt-get -y update # https://github.com/actions/runner-images/issues/12599
           sudo apt-get install -y libc++-dev libc++abi-dev xorg-dev libltdl-dev
 
-      - name: Enable Developer Command Prompt (Windows)
-        if: matrix.os == 'windows-latest'
+      - name: Enable Developer Command Prompt (Windows + MSVC)
+        if: matrix.os == 'windows-latest' && matrix.compiler == 'msvc'
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Workaround for CMake bug that cannot find __CMAKE::CXX23 target when using homebrew libc++ (macOS)
@@ -41,7 +49,7 @@ jobs:
         run: |
           mv .github/workflows/scripts/* examples
           cd examples
-          cmake --preset=${{ matrix.os }}
+          cmake --preset=${{ matrix.os }}-${{ matrix.compiler }}
 
       - name: Build
         run: cmake --build examples/build --target glfw_vulkan --config Release
