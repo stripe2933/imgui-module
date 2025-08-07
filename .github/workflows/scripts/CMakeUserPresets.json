@@ -37,6 +37,14 @@
       }
     },
     {
+      "name": "ubuntu-latest-gcc",
+      "inherits": "ci",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "/home/runner/work/imgui-module/imgui-module/gcc-15/bin/gcc",
+        "CMAKE_CXX_COMPILER": "/home/runner/work/imgui-module/imgui-module/gcc-15/bin/g++"
+      }
+    },
+    {
       "name": "ubuntu-latest-clang",
       "inherits": "ci",
       "cacheVariables": {
