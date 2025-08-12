@@ -1004,6 +1004,7 @@ namespace ImGui {
     using ImGui::SplitterBehavior;
     using ImGui::StartMouseMovingWindow;
     using ImGui::StartMouseMovingWindowOrNode;
+    using ImGui::StopMouseMovingWindow;
     using ImGui::TabBarAddTab;
     using ImGui::TabBarCloseTab;
     using ImGui::TabBarFindMostRecentlySelectedTabForActiveWindow;

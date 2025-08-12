@@ -626,6 +626,8 @@ export {
     using ::ImGuiStyleVar_ImageBorderSize;
     using ::ImGuiStyleVar_TabRounding;
     using ::ImGuiStyleVar_TabBorderSize;
+    using ::ImGuiStyleVar_TabMinWidthBase;
+    using ::ImGuiStyleVar_TabMinWidthShrink;
     using ::ImGuiStyleVar_TabBarBorderSize;
     using ::ImGuiStyleVar_TabBarOverlineSize;
     using ::ImGuiStyleVar_TableAngledHeadersAngle;
@@ -649,7 +651,8 @@ export {
     using ::ImGuiTabBarFlags_NoTabListScrollingButtons;
     using ::ImGuiTabBarFlags_NoTooltip;
     using ::ImGuiTabBarFlags_DrawSelectedOverline;
-    using ::ImGuiTabBarFlags_FittingPolicyResizeDown;
+    using ::ImGuiTabBarFlags_FittingPolicyMixed;
+    using ::ImGuiTabBarFlags_FittingPolicyShrink;
     using ::ImGuiTabBarFlags_FittingPolicyScroll;
     using ::ImGuiTabBarFlags_FittingPolicyMask_;
     using ::ImGuiTabBarFlags_FittingPolicyDefault_;
