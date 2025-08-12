@@ -18,25 +18,6 @@
       "inherits": "ci"
     },
     {
-      "name": "windows-latest-clang",
-      "inherits": "ci",
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "C:/msys64/clang64/bin/clang.exe",
-        "CMAKE_CXX_COMPILER": "C:/msys64/clang64/bin/clang++.exe",
-        "CMAKE_CXX_FLAGS": "-stdlib=libc++",
-        "CMAKE_EXE_LINKER_FLAGS": "-static",
-        "VCPKG_TARGET_TRIPLET": "x64-windows-mingw-clang-release"
-      }
-    },
-    {
-      "name": "macos-15-clang",
-      "inherits": "ci",
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "/opt/homebrew/opt/llvm@18/bin/clang",
-        "CMAKE_CXX_COMPILER": "/opt/homebrew/opt/llvm@18/bin/clang++"
-      }
-    },
-    {
       "name": "ubuntu-latest-gcc",
       "inherits": "ci",
       "cacheVariables": {
