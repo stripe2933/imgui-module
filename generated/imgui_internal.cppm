@@ -899,6 +899,7 @@ namespace ImGui {
     using ImGui::SliderBehavior;
     using ImGui::SplitterBehavior;
     using ImGui::StartMouseMovingWindow;
+    using ImGui::StopMouseMovingWindow;
     using ImGui::TabBarCloseTab;
     using ImGui::TabBarFindTabByID;
     using ImGui::TabBarFindTabByOrder;
