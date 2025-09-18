@@ -115,10 +115,6 @@ jobs:
         if: matrix.os == 'windows-latest' && matrix.compiler == 'msvc'
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Workaround for CMake bug that cannot find __CMAKE::CXX23 target when using homebrew libc++ (macOS)
-        if: matrix.os == 'macos-latest'
-        run: sed -i '' 's|libc++.modules.json|../../c++/libc++.modules.json|g' /opt/homebrew/opt/cmake/share/cmake/Modules/Compiler/Clang-CXX-CXXImportStd.cmake # https://gitlab.kitware.com/cmake/cmake/-/issues/25965#note_1523575
-
       - name: Configure CMake and Build
         if: matrix.os != 'ubuntu-latest' || matrix.compiler != 'gcc'
         run: |
