@@ -1,82 +1,92 @@
+name: Automated Release
+
 on: push
 
 jobs:
-  check-release-and-generate-binding:
+  check-release:
+    name: Check ImGui Release
     runs-on: ubuntu-latest
 
     outputs:
       old_version: ${{ steps.check_release.outputs.old_version }}
       new_version: ${{ steps.check_release.outputs.new_version }}
-      new_ref: ${{ steps.check_release.outputs.new_ref }}
 
     steps:
       - name: Check if new ImGui version is released
         id: check_release
         run: |
-          current_version=v1.92.1
+          current_version=$(curl -s https://api.github.com/repos/stripe2933/imgui-module/releases/latest | jq -r .tag_name)
           new_version=$(curl -s https://api.github.com/repos/ocornut/imgui/releases/latest | jq -r .tag_name)
           if [ "$new_version" != "$current_version" ]; then
             echo "old_version=$current_version" >> $GITHUB_OUTPUT
             echo "new_version=$new_version" >> $GITHUB_OUTPUT
-          
-            new_ref=$new_version
-            if [[ "${{ github.ref }}" = refs/heads/docking* ]]; then
-              new_ref="$new_ref-docking"
-            fi
-            echo "new_ref=$new_ref" >> $GITHUB_OUTPUT
           fi
 
+  generate-binding:
+    name: Generate C++ Module Binding with new release
+    needs: check-release
+    runs-on: ubuntu-latest
+    if: needs.check-release.outputs.new_version != ''
+
+    strategy:
+      matrix:
+        tag_suffix: ['', '-docking']
+
+    steps:
       - uses: actions/checkout@v4
-        if: steps.check_release.outputs.new_ref != ''
         with:
           submodules: 'true'
 
+      - name: Setup dependencies
+        run: sudo apt install luajit libvulkan-dev
+
       - name: Checkout imgui with the latest version and run cimgui generator
-        if: steps.check_release.outputs.new_ref != ''
         working-directory: cimgui
         run: |
-          git clone --depth 1 --branch ${{ steps.check_release.outputs.new_ref }} https://github.com/ocornut/imgui.git
+          git clone --depth 1 --branch refs/heads/${{ steps.check_release.outputs.new_version }}${{ matrix.tag_suffix }} https://github.com/ocornut/imgui.git
           cd generator
-          sudo apt install luajit libvulkan-dev
           ./generator.sh -c "glfw opengl3 opengl2 sdl2 sdl3 vulkan"
 
       - name: Generate C++ module binding
-        if: steps.check_release.outputs.new_ref != ''
         run: python3 generate.py
 
       - name: Upload generated module binding files
-        if: steps.check_release.outputs.new_ref != ''
         uses: actions/upload-artifact@v4
         with:
-          name: generated
+          name: generated${{ matrix.tag_suffix }}
           path: generated/
 
   build-examples:
-    needs: check-release-and-generate-binding
-    if: needs.check-release-and-generate-binding.outputs.new_ref != ''
+    name: Build Examples with the Generated Module Binding
+    needs: [check-release, generate-binding]
     runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: false
       matrix:
         include:
-          - { os: 'windows-latest', compiler: 'msvc' }
-          - { os: 'windows-latest', compiler: 'clang' }
-          - { os: 'macos-15', compiler: 'clang' }
-          - { os: 'ubuntu-latest', compiler: 'gcc' }
-          - { os: 'ubuntu-latest', compiler: 'clang' }
+          - { tag_suffix: '',         os: 'windows-latest', compiler: 'msvc' }
+          - { tag_suffix: '-docking', os: 'windows-latest', compiler: 'msvc' }
+          - { tag_suffix: '',         os: 'windows-latest', compiler: 'clang' }
+          - { tag_suffix: '-docking', os: 'windows-latest', compiler: 'clang' }
+          - { tag_suffix: '',         os: 'macos-15', compiler: 'clang' }
+          - { tag_suffix: '-docking', os: 'macos-15', compiler: 'clang' }
+          - { tag_suffix: '',         os: 'ubuntu-latest', compiler: 'gcc' }
+          - { tag_suffix: '-docking', os: 'ubuntu-latest', compiler: 'gcc' }
+          - { tag_suffix: '',         os: 'ubuntu-latest', compiler: 'clang' }
+          - { tag_suffix: '-docking', os: 'ubuntu-latest', compiler: 'clang' }
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Checkout imgui with the latest version
         working-directory: cimgui
-        run: git clone --depth 1 --branch ${{ needs.check-release-and-generate-binding.outputs.new_ref }} https://github.com/ocornut/imgui.git
+        run: git clone --depth 1 --branch refs/heads/${{ steps.check_release.outputs.new_version }}${{ matrix.tag_suffix }} https://github.com/ocornut/imgui.git
 
       - name: Download generated module binding files
         uses: actions/download-artifact@v4
         with:
-          name: generated
+          name: generated${{ matrix.tag_suffix }}
           path: generated
 
       - name: Install build dependencies (Windows + Clang)
@@ -128,25 +138,33 @@ jobs:
           cmake-4.0.3-linux-x86_64/bin/cmake --build build --target glfw_vulkan --config Release
 
   release:
-    needs: [check-release-and-generate-binding, build-examples]
+    needs: [check-release, generate-binding, build-examples]
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - { branch: 'main',        tag_suffix': '' }
+          - { branch: 'docking-dev', tag_suffix': '-docking' }
 
     permissions:
       contents: write
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.branch }}
 
       - name: Replace the module binding files with the generated artifacts
         uses: actions/download-artifact@v4
         with:
-          name: generated
+          name: generated${{ matrix.tag_suffix }}
           path: generated
 
       - name: Commit and push
         run: |
           git config --global user.name 'LEE KYOUNGHEON'
           git config --global user.email 'stripe2933@gmail.com'
-          sed -i 's/${{ needs.check-release-and-generate-binding.outputs.old_version }}/${{ needs.check-release-and-generate-binding.outputs.new_version }}/g' README.md
-          git commit -am "${{ needs.check-release-and-generate-binding.outputs.new_version }} update"
+          sed -i 's/${{ needs.check-release.outputs.old_version }}/${{ needs.check-release.outputs.new_version }}/g' README.md
+          git commit -am "${{ needs.check-release.outputs.new_version }} update"
           git push
