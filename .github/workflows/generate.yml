@@ -69,12 +69,12 @@ jobs:
           - { tag_suffix: '-docking', os: 'windows-latest', compiler: 'msvc' }
           - { tag_suffix: '',         os: 'windows-latest', compiler: 'clang' }
           - { tag_suffix: '-docking', os: 'windows-latest', compiler: 'clang' }
-          - { tag_suffix: '',         os: 'macos-15', compiler: 'clang' }
-          - { tag_suffix: '-docking', os: 'macos-15', compiler: 'clang' }
-          - { tag_suffix: '',         os: 'ubuntu-latest', compiler: 'gcc' }
-          - { tag_suffix: '-docking', os: 'ubuntu-latest', compiler: 'gcc' }
-          - { tag_suffix: '',         os: 'ubuntu-latest', compiler: 'clang' }
-          - { tag_suffix: '-docking', os: 'ubuntu-latest', compiler: 'clang' }
+          - { tag_suffix: '',         os: 'macos-latest',   compiler: 'clang' }
+          - { tag_suffix: '-docking', os: 'macos-latest',   compiler: 'clang' }
+          - { tag_suffix: '',         os: 'ubuntu-latest',  compiler: 'gcc' }
+          - { tag_suffix: '-docking', os: 'ubuntu-latest',  compiler: 'gcc' }
+          - { tag_suffix: '',         os: 'ubuntu-latest',  compiler: 'clang' }
+          - { tag_suffix: '-docking', os: 'ubuntu-latest',  compiler: 'clang' }
 
     steps:
       - uses: actions/checkout@v4
@@ -94,7 +94,7 @@ jobs:
         run: C:\msys64\usr\bin\bash -lc 'pacman --noconfirm -S mingw-w64-clang-x86_64-clang mingw-w64-clang-x86_64-libc++ mingw-w64-clang-x86_64-libwinpthread-git'
 
       - name: Install build dependencies (macOS)
-        if: matrix.os == 'macos-15'
+        if: matrix.os == 'macos-latest'
         run: brew install autoconf automake libtool
 
       - name: Install build dependencies (Ubuntu)
@@ -116,7 +116,7 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Workaround for CMake bug that cannot find __CMAKE::CXX23 target when using homebrew libc++ (macOS)
-        if: matrix.os == 'macos-15'
+        if: matrix.os == 'macos-latest'
         run: sed -i '' 's|libc++.modules.json|../../c++/libc++.modules.json|g' /opt/homebrew/opt/cmake/share/cmake/Modules/Compiler/Clang-CXX-CXXImportStd.cmake # https://gitlab.kitware.com/cmake/cmake/-/issues/25965#note_1523575
 
       - name: Configure CMake and Build
