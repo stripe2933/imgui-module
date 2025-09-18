@@ -92,7 +92,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get -y update # https://github.com/actions/runner-images/issues/12599
-          sudo apt-get install -y xorg-dev libltdl-dev
+          sudo apt-get install -y xorg-dev libwayland-dev libltdl-dev
 
       - name: Install build dependencies (Ubuntu + GCC)
         if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc'
