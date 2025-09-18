@@ -12,6 +12,7 @@ export {
     using ::ImDrawData;
     using ::ImGui_ImplVulkanH_Window;
     using ::ImGui_ImplVulkan_InitInfo;
+    using ::ImGui_ImplVulkan_MainPipelineCreateInfo;
     using ::ImTextureData;
     using ::PFN_vkVoidFunction;
     using ::VkAllocationCallbacks;
@@ -39,6 +40,7 @@ export {
     using ::ImGui_ImplVulkanH_SelectQueueFamilyIndex;
     using ::ImGui_ImplVulkanH_SelectSurfaceFormat;
     using ::ImGui_ImplVulkan_AddTexture;
+    using ::ImGui_ImplVulkan_CreateMainPipeline;
     using ::ImGui_ImplVulkan_Init;
     using ::ImGui_ImplVulkan_LoadFunctions;
     using ::ImGui_ImplVulkan_NewFrame;
