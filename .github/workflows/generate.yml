@@ -43,7 +43,7 @@ jobs:
       - name: Checkout imgui with the latest version and run cimgui generator
         working-directory: cimgui
         run: |
-          git clone --depth 1 --branch refs/heads/${{ steps.check_release.outputs.new_version }}${{ matrix.tag_suffix }} https://github.com/ocornut/imgui.git
+          git clone --depth 1 --branch refs/heads/${{ needs.check_release.outputs.new_version }}${{ matrix.tag_suffix }} https://github.com/ocornut/imgui.git
           cd generator
           ./generator.sh -c "glfw opengl3 opengl2 sdl2 sdl3 vulkan"
 
@@ -81,7 +81,7 @@ jobs:
 
       - name: Checkout imgui with the latest version
         working-directory: cimgui
-        run: git clone --depth 1 --branch refs/heads/${{ steps.check_release.outputs.new_version }}${{ matrix.tag_suffix }} https://github.com/ocornut/imgui.git
+        run: git clone --depth 1 --branch refs/heads/${{ needs.check_release.outputs.new_version }}${{ matrix.tag_suffix }} https://github.com/ocornut/imgui.git
 
       - name: Download generated module binding files
         uses: actions/download-artifact@v4
