@@ -9,6 +9,12 @@ export import imgui;
 export {
     // ----- Enums -----
 
+    using ::ImDrawTextFlags_;
+    using ::ImDrawTextFlags_None;
+    using ::ImDrawTextFlags_CpuFineClip;
+    using ::ImDrawTextFlags_WrapKeepBlanks;
+    using ::ImDrawTextFlags_StopOnNewLine;
+
     using ::ImGuiActivateFlags_;
     using ::ImGuiActivateFlags_None;
     using ::ImGuiActivateFlags_PreferInput;
@@ -16,6 +22,7 @@ export {
     using ::ImGuiActivateFlags_TryToPreserveState;
     using ::ImGuiActivateFlags_FromTabbing;
     using ::ImGuiActivateFlags_FromShortcut;
+    using ::ImGuiActivateFlags_FromFocusApi;
 
     using ::ImGuiAxis;
     using ::ImGuiAxis_None;
@@ -272,7 +279,6 @@ export {
 
     using ::ImGuiSelectableFlagsPrivate_;
     using ::ImGuiSelectableFlags_NoHoldingActiveID;
-    using ::ImGuiSelectableFlags_SelectOnNav;
     using ::ImGuiSelectableFlags_SelectOnClick;
     using ::ImGuiSelectableFlags_SelectOnRelease;
     using ::ImGuiSelectableFlags_SpanAvailWidth;
@@ -527,11 +533,14 @@ export {
     using ::ImFontAtlasUpdateDrawListsSharedData;
     using ::ImFontAtlasUpdateDrawListsTextures;
     using ::ImFontAtlasUpdateNewFrame;
+    using ::ImFontCalcTextSizeEx;
+    using ::ImFontCalcWordWrapPositionEx;
     using ::ImFormatString;
     using ::ImFormatStringToTempBuffer;
     using ::ImFormatStringToTempBufferV;
     using ::ImFormatStringV;
     using ::ImHashData;
+    using ::ImHashSkipUncontributingPrefix;
     using ::ImHashStr;
     using ::ImInvLength;
     using ::ImIsFloatAboveGuaranteedIntegerPrecision;
@@ -573,6 +582,7 @@ export {
     using ::ImStrlenW;
     using ::ImStrncpy;
     using ::ImStrnicmp;
+    using ::ImTextCalcWordWrapNextLineStart;
     using ::ImTextCharFromUtf8;
     using ::ImTextCharToUtf8;
     using ::ImTextCountCharsFromUtf8;
@@ -623,6 +633,7 @@ namespace ImGui {
     using ImGui::BringWindowToFocusFront;
     using ImGui::ButtonBehavior;
     using ImGui::ButtonEx;
+    using ImGui::CalcClipRectVisibleItemsY;
     using ImGui::CalcItemSize;
     using ImGui::CalcTypematicRepeatAmount;
     using ImGui::CalcWindowNextAutoFitSize;
@@ -901,6 +912,7 @@ namespace ImGui {
     using ImGui::StartMouseMovingWindow;
     using ImGui::StopMouseMovingWindow;
     using ImGui::TabBarCloseTab;
+    using ImGui::TabBarFindByID;
     using ImGui::TabBarFindTabByID;
     using ImGui::TabBarFindTabByOrder;
     using ImGui::TabBarGetCurrentTab;
@@ -910,6 +922,7 @@ namespace ImGui {
     using ImGui::TabBarQueueFocus;
     using ImGui::TabBarQueueReorder;
     using ImGui::TabBarQueueReorderFromMousePos;
+    using ImGui::TabBarRemove;
     using ImGui::TabBarRemoveTab;
     using ImGui::TabItemBackground;
     using ImGui::TabItemCalcSize;
