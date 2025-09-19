@@ -132,8 +132,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - { branch: 'main',    tag_suffix': '' }
-          - { branch: 'docking', tag_suffix': '-docking' }
+          - { branch: 'main',    tag_suffix: '' }
+          - { branch: 'docking', tag_suffix: '-docking' }
 
     permissions:
       contents: write
