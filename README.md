@@ -1,7 +1,6 @@
 # C++20 Module Binding for ImGui
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![Build](https://github.com/stripe2933/imgui-module/actions/workflows/generate-and-build.yml/badge.svg)
 
 Use ImGui with `import imgui;`. This binding is generated with [cimgui](https://github.com/cimgui/cimgui?tab=readme-ov-file) and regularly updated and tested with [GitHub Actions](.github/workflows/generate-and-build.yml).
 

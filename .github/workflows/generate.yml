@@ -1,0 +1,158 @@
+on:
+  push:
+    branches:
+      - '**'
+  schedule:
+    - cron: '0 0 * * *' # Run daily at midnight
+
+jobs:
+  check-release:
+    name: Check ImGui Release
+    runs-on: ubuntu-latest
+
+    outputs:
+      old_version: ${{ steps.check_release.outputs.old_version }}
+      new_version: ${{ steps.check_release.outputs.new_version }}
+
+    steps:
+      - name: Check if new version of ImGui is released
+        id: check_release
+        run: |
+          current_version=$(curl -s https://api.github.com/repos/stripe2933/imgui-module/releases/latest | jq -r .tag_name)
+          new_version=$(curl -s https://api.github.com/repos/ocornut/imgui/releases/latest | jq -r .tag_name)
+          if [ "$new_version" != "$current_version" ]; then
+            echo "old_version=$current_version" >> $GITHUB_OUTPUT
+            echo "new_version=$new_version" >> $GITHUB_OUTPUT
+          fi
+
+  generate-binding:
+    name: Generate C++ module binding with the new release
+    needs: check-release
+    runs-on: ubuntu-latest
+    if: needs.check-release.outputs.new_version != ''
+
+    strategy:
+      matrix:
+        tag_suffix: ['', '-docking']
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
+      - name: Setup dependencies
+        run: sudo apt install luajit libvulkan-dev
+
+      - name: Checkout imgui with the latest version and run cimgui generator
+        working-directory: cimgui
+        run: |
+          git clone --depth 1 --branch ${{ needs.check-release.outputs.new_version }}${{ matrix.tag_suffix }} https://github.com/ocornut/imgui.git
+          cd generator
+          ./generator.sh -c "glfw opengl3 opengl2 sdl2 sdl3 vulkan"
+
+      - name: Generate C++ module binding
+        run: python3 generate.py
+
+      - name: Upload generated module binding files
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated${{ matrix.tag_suffix }}
+          path: generated/
+
+  build-examples:
+    name: Build examples with the generated module binding
+    needs: [check-release, generate-binding]
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { tag_suffix: '',         os: 'windows-latest', compiler: 'msvc' }
+          - { tag_suffix: '-docking', os: 'windows-latest', compiler: 'msvc' }
+          - { tag_suffix: '',         os: 'ubuntu-latest',  compiler: 'gcc' }
+          - { tag_suffix: '-docking', os: 'ubuntu-latest',  compiler: 'gcc' }
+          - { tag_suffix: '',         os: 'ubuntu-latest',  compiler: 'clang' }
+          - { tag_suffix: '-docking', os: 'ubuntu-latest',  compiler: 'clang' }
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Checkout imgui with the latest version
+        working-directory: cimgui
+        run: git clone --depth 1 --branch ${{ needs.check-release.outputs.new_version }}${{ matrix.tag_suffix }} https://github.com/ocornut/imgui.git
+
+      - name: Download generated module binding files
+        uses: actions/download-artifact@v4
+        with:
+          name: generated${{ matrix.tag_suffix }}
+          path: generated
+
+      - name: Install build dependencies (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get -y update # https://github.com/actions/runner-images/issues/12599
+          sudo apt-get install -y xorg-dev libwayland-dev libltdl-dev
+
+      - name: Install build dependencies (Ubuntu + GCC)
+        if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc'
+        uses: ./.github/actions/build-gcc-15
+
+      - name: Install build dependencies (Ubuntu + Clang)
+        if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'clang'
+        run: sudo apt-get install -y libc++-dev libc++abi-dev
+
+      - name: Enable Developer Command Prompt (Windows + MSVC)
+        if: matrix.os == 'windows-latest' && matrix.compiler == 'msvc'
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Configure CMake and Build
+        if: matrix.os != 'ubuntu-latest' || matrix.compiler != 'gcc'
+        run: |
+          mv .github/workflows/scripts/* examples
+          cd examples
+          cmake --preset=${{ matrix.os }}-${{ matrix.compiler }}
+          cmake --build build --target glfw_vulkan --config Release
+
+      - name: Configure CMake and Build (Ubuntu + GCC)
+        if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc'
+        run: |
+          mv .github/workflows/scripts/* examples
+          cd examples
+          wget https://github.com/Kitware/CMake/releases/download/v4.0.3/cmake-4.0.3-linux-x86_64.tar.gz
+          tar -xf cmake-4.0.3-linux-x86_64.tar.gz
+          cmake-4.0.3-linux-x86_64/bin/cmake --preset=${{ matrix.os }}-${{ matrix.compiler }}
+          cmake-4.0.3-linux-x86_64/bin/cmake --build build --target glfw_vulkan --config Release
+
+  release:
+    name: Commit and push the updated module bindings
+    needs: [check-release, generate-binding, build-examples]
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - { branch: 'main',    tag_suffix: '' }
+          - { branch: 'docking', tag_suffix: '-docking' }
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.branch }}
+
+      - name: Replace the module binding files with the generated artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: generated${{ matrix.tag_suffix }}
+          path: generated
+
+      - name: Commit and push
+        run: |
+          git config --global user.name 'LEE KYOUNGHEON'
+          git config --global user.email 'stripe2933@gmail.com'
+          sed -i 's/${{ needs.check-release.outputs.old_version }}/${{ needs.check-release.outputs.new_version }}/g' README.md
+          git commit -am "${{ needs.check-release.outputs.new_version }} update"
+          git push

@@ -28,6 +28,7 @@ target_compile_definitions(imgui_glfw_vulkan_module PRIVATE
 target_link_libraries(imgui_glfw_vulkan_module PUBLIC
     glfw
     Vulkan::module
+    $<$<PLATFORM_ID:Linux>:-lX11> # Starting from ImGui v1.92.3, using GLFW backend on Linux/BSD etc. requires linking with -lX11.
 )
 
 add_library(imgui::glfw_vulkan_module ALIAS imgui_glfw_vulkan_module)
