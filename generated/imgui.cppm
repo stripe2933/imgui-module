@@ -138,6 +138,7 @@ export {
     using ::ImGuiCol_TextSelectedBg;
     using ::ImGuiCol_TreeLines;
     using ::ImGuiCol_DragDropTarget;
+    using ::ImGuiCol_UnsavedMarker;
     using ::ImGuiCol_NavCursor;
     using ::ImGuiCol_NavWindowingHighlight;
     using ::ImGuiCol_NavWindowingDimBg;

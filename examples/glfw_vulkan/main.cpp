@@ -121,11 +121,13 @@ public:
             .Device = *device,
             .QueueFamily = queueFamily,
             .Queue = queue,
-            .RenderPass = *renderPass,
+            .DescriptorPoolSize = 128,
             .MinImageCount = 2,
             .ImageCount = 2,
-            .Subpass = 0,
-            .DescriptorPoolSize = 128,
+            .PipelineInfoMain = {
+                .RenderPass = *renderPass,
+                .Subpass = 0,
+            },
         };
         ImGui_ImplVulkan_Init(&initInfo);
     }

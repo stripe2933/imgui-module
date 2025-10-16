@@ -12,7 +12,7 @@ export {
     using ::ImDrawData;
     using ::ImGui_ImplVulkanH_Window;
     using ::ImGui_ImplVulkan_InitInfo;
-    using ::ImGui_ImplVulkan_MainPipelineCreateInfo;
+    using ::ImGui_ImplVulkan_PipelineInfo;
     using ::ImTextureData;
     using ::PFN_vkVoidFunction;
     using ::VkAllocationCallbacks;
@@ -22,6 +22,7 @@ export {
     using ::VkDevice;
     using ::VkFormat;
     using ::VkImageLayout;
+    using ::VkImageUsageFlags;
     using ::VkImageView;
     using ::VkInstance;
     using ::VkPhysicalDevice;

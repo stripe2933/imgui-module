@@ -618,6 +618,7 @@ namespace ImGui {
     using ImGui::BeginComboPreview;
     using ImGui::BeginDisabledOverrideReenable;
     using ImGui::BeginDragDropTargetCustom;
+    using ImGui::BeginDragDropTargetViewport;
     using ImGui::BeginErrorTooltip;
     using ImGui::BeginMenuEx;
     using ImGui::BeginPopupEx;
@@ -850,7 +851,8 @@ namespace ImGui {
     using ImGui::RenderBullet;
     using ImGui::RenderCheckMark;
     using ImGui::RenderColorRectWithAlphaCheckerboard;
-    using ImGui::RenderDragDropTargetRect;
+    using ImGui::RenderDragDropTargetRectEx;
+    using ImGui::RenderDragDropTargetRectForItem;
     using ImGui::RenderFrame;
     using ImGui::RenderFrameBorder;
     using ImGui::RenderMouseCursor;
