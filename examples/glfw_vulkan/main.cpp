@@ -124,8 +124,10 @@ public:
             .DescriptorPoolSize = 128,
             .MinImageCount = 2,
             .ImageCount = 2,
-            .RenderPass = *renderPass,
-            .Subpass = 0,
+            .PipelineInfoMain = {
+                .RenderPass = *renderPass,
+                .Subpass = 0,
+            },
         };
         ImGui_ImplVulkan_Init(&initInfo);
     }
