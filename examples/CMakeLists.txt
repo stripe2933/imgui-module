@@ -14,6 +14,7 @@ project(imgui_module_examples LANGUAGES CXX)
 # ----- External dependencies -----
 
 find_package(glfw3 CONFIG)
+find_package(OpenGL)
 find_package(Vulkan)
 
 # ----- Module CMake targets for the dependencies -----
@@ -45,6 +46,11 @@ endif()
 
 # ----- Project CMake targets -----
 
-if (${glfw3_FOUND} AND ${Vulkan_FOUND})
-    add_subdirectory(glfw_vulkan)
+if (${glfw3_FOUND})
+    if (${OpenGL_FOUND})
+        add_subdirectory(glfw_opengl3)
+    endif()
+    if (${Vulkan_FOUND})
+        add_subdirectory(glfw_vulkan)
+    endif()
 endif()

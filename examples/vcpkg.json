@@ -1,6 +1,10 @@
 {
   "dependencies": [
-    "vulkan",
-    "glfw3"
+    "glfw3",
+    {
+      "name": "opengl",
+      "platform": "windows | linux"
+    },
+    "vulkan"
   ]
 }

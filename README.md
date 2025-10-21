@@ -53,6 +53,7 @@ This repository contains several examples for how to integrate these generated m
 Currently, following examples are available:
 
 - [GLFW + Vulkan](examples/glfw_vulkan): it also uses [Vulkan-Hpp C++20 module](https://github.com/KhronosGroup/Vulkan-Hpp/blob/main/README.md#c20-named-module-).
+- [GLFW + OpenGL 3](examples/glfw_opengl3)
 
 Contributions for more examples are welcome!
 

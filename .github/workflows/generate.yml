@@ -112,7 +112,7 @@ jobs:
           mv .github/workflows/scripts/* examples
           cd examples
           cmake --preset=${{ matrix.os }}-${{ matrix.compiler }}
-          cmake --build build --target glfw_vulkan --config Release
+          cmake --build build --config Release
 
       - name: Configure CMake and Build (Ubuntu + GCC)
         if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc'
@@ -122,7 +122,7 @@ jobs:
           wget https://github.com/Kitware/CMake/releases/download/v4.0.3/cmake-4.0.3-linux-x86_64.tar.gz
           tar -xf cmake-4.0.3-linux-x86_64.tar.gz
           cmake-4.0.3-linux-x86_64/bin/cmake --preset=${{ matrix.os }}-${{ matrix.compiler }}
-          cmake-4.0.3-linux-x86_64/bin/cmake --build build --target glfw_vulkan --config Release
+          cmake-4.0.3-linux-x86_64/bin/cmake --build build --config Release
 
   release:
     name: Commit and push the updated module bindings
