@@ -1,7 +1,4 @@
 on:
-  push:
-    branches:
-      - '**'
   schedule:
     - cron: '0 0 * * *' # Run daily at midnight
 
@@ -36,7 +33,7 @@ jobs:
         tag_suffix: ['', '-docking']
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: 'true'
 
@@ -76,7 +73,7 @@ jobs:
           - { tag_suffix: '-docking', os: 'ubuntu-latest',  compiler: 'clang' }
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Checkout imgui with the latest version
         working-directory: cimgui
@@ -90,9 +87,7 @@ jobs:
 
       - name: Install build dependencies (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get -y update # https://github.com/actions/runner-images/issues/12599
-          sudo apt-get install -y xorg-dev libwayland-dev libltdl-dev
+        run: sudo apt-get install -y xorg-dev libwayland-dev libltdl-dev
 
       - name: Install build dependencies (Ubuntu + GCC)
         if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc'
@@ -119,10 +114,10 @@ jobs:
         run: |
           mv .github/workflows/scripts/* examples
           cd examples
-          wget https://github.com/Kitware/CMake/releases/download/v4.0.3/cmake-4.0.3-linux-x86_64.tar.gz
-          tar -xf cmake-4.0.3-linux-x86_64.tar.gz
-          cmake-4.0.3-linux-x86_64/bin/cmake --preset=${{ matrix.os }}-${{ matrix.compiler }}
-          cmake-4.0.3-linux-x86_64/bin/cmake --build build --config Release
+          wget https://github.com/Kitware/CMake/releases/download/v4.1.2/cmake-4.1.2-linux-x86_64.tar.gz
+          tar -xf cmake-4.1.2-linux-x86_64.tar.gz
+          cmake-4.1.2-linux-x86_64/bin/cmake --preset=${{ matrix.os }}-${{ matrix.compiler }}
+          cmake-4.1.2-linux-x86_64/bin/cmake --build build --config Release
 
   release:
     name: Commit and push the updated module bindings
@@ -139,7 +134,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: ${{ matrix.branch }}
 
