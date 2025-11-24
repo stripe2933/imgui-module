@@ -144,6 +144,7 @@ export {
     using ::ImGuiCol_TextSelectedBg;
     using ::ImGuiCol_TreeLines;
     using ::ImGuiCol_DragDropTarget;
+    using ::ImGuiCol_DragDropTargetBg;
     using ::ImGuiCol_UnsavedMarker;
     using ::ImGuiCol_NavCursor;
     using ::ImGuiCol_NavWindowingHighlight;
@@ -261,6 +262,7 @@ export {
     using ::ImGuiDragDropFlags_AcceptBeforeDelivery;
     using ::ImGuiDragDropFlags_AcceptNoDrawDefaultRect;
     using ::ImGuiDragDropFlags_AcceptNoPreviewTooltip;
+    using ::ImGuiDragDropFlags_AcceptDrawAsHovered;
     using ::ImGuiDragDropFlags_AcceptPeekOnly;
 
     using ::ImGuiFocusedFlags_;
@@ -561,6 +563,7 @@ export {
     using ::ImGuiMultiSelectFlags_SelectOnClick;
     using ::ImGuiMultiSelectFlags_SelectOnClickRelease;
     using ::ImGuiMultiSelectFlags_NavWrapX;
+    using ::ImGuiMultiSelectFlags_NoSelectOnRightClick;
 
     using ::ImGuiPopupFlags_;
     using ::ImGuiPopupFlags_None;
