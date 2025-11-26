@@ -20,10 +20,8 @@ jobs:
         run: |
           current_version=$(curl -s https://api.github.com/repos/stripe2933/imgui-module/releases/latest | jq -r .tag_name)
           new_version=$(curl -s https://api.github.com/repos/ocornut/imgui/releases/latest | jq -r .tag_name)
-          if [ "$new_version" != "$current_version" ]; then
-            echo "old_version=$current_version" >> $GITHUB_OUTPUT
-            echo "new_version=$new_version" >> $GITHUB_OUTPUT
-          fi
+          echo "old_version=$current_version" >> $GITHUB_OUTPUT
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
 
   generate-binding:
     name: Generate C++ module binding with the new release
