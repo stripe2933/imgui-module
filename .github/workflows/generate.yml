@@ -8,7 +8,7 @@ on:
 jobs:
   check-release:
     name: Check ImGui Release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
 
     outputs:
       old_version: ${{ steps.check_release.outputs.old_version }}
@@ -127,7 +127,7 @@ jobs:
   release:
     name: Commit and push the updated module bindings
     needs: [check-release, generate-binding, build-examples]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
 
     strategy:
       matrix:
