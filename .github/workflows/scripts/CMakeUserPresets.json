@@ -21,8 +21,8 @@
       "name": "ubuntu-latest-gcc",
       "inherits": "ci",
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "/home/runner/work/imgui-module/imgui-module/gcc-15/bin/gcc",
-        "CMAKE_CXX_COMPILER": "/home/runner/work/imgui-module/imgui-module/gcc-15/bin/g++"
+        "CMAKE_C_COMPILER": "/usr/bin/gcc-15",
+        "CMAKE_CXX_COMPILER": "/usr/bin/g++-15"
       }
     },
     {
