@@ -154,5 +154,6 @@ jobs:
           git config --global user.name 'LEE KYOUNGHEON'
           git config --global user.email 'stripe2933@gmail.com'
           sed -i 's/${{ needs.check-release.outputs.old_version }}/${{ needs.check-release.outputs.new_version }}/g' README.md
+          git add generated README.md
           git diff --cached --quiet || git commit -am "${{ needs.check-release.outputs.new_version }} update"
           git push
