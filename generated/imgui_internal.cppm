@@ -82,6 +82,7 @@ export {
     using ::ImGuiDebugLogFlags_EventViewport;
     using ::ImGuiDebugLogFlags_EventMask_;
     using ::ImGuiDebugLogFlags_OutputToTTY;
+    using ::ImGuiDebugLogFlags_OutputToDebugger;
     using ::ImGuiDebugLogFlags_OutputToTestEngine;
 
     using ::ImGuiFocusRequestFlags_;
@@ -143,7 +144,6 @@ export {
     using ::ImGuiInputTextFlags_LocalizeDecimalPoint;
 
     using ::ImGuiItemFlagsPrivate_;
-    using ::ImGuiItemFlags_Disabled;
     using ::ImGuiItemFlags_ReadOnly;
     using ::ImGuiItemFlags_MixedValue;
     using ::ImGuiItemFlags_NoWindowHoverableCheck;
@@ -233,6 +233,7 @@ export {
     using ::ImGuiNextItemDataFlags_HasShortcut;
     using ::ImGuiNextItemDataFlags_HasRefVal;
     using ::ImGuiNextItemDataFlags_HasStorageID;
+    using ::ImGuiNextItemDataFlags_HasColorMarker;
 
     using ::ImGuiNextWindowDataFlags_;
     using ::ImGuiNextWindowDataFlags_None;
@@ -336,6 +337,11 @@ export {
     using ::ImGuiWindowRefreshFlags_TryToAvoidRefresh;
     using ::ImGuiWindowRefreshFlags_RefreshOnHover;
     using ::ImGuiWindowRefreshFlags_RefreshOnFocus;
+
+    using ::ImWcharClass;
+    using ::ImWcharClass_Blank;
+    using ::ImWcharClass_Punct;
+    using ::ImWcharClass_Other;
 
     // ----- Structs -----
 
@@ -512,6 +518,7 @@ export {
     using ::ImFontAtlasFontDestroySourceData;
     using ::ImFontAtlasFontDiscardBakes;
     using ::ImFontAtlasFontInitOutput;
+    using ::ImFontAtlasFontRebuildOutput;
     using ::ImFontAtlasFontSourceAddToFont;
     using ::ImFontAtlasFontSourceInit;
     using ::ImFontAtlasGetFontLoaderForStbTruetype;
@@ -592,12 +599,16 @@ export {
     using ::ImTextCalcWordWrapNextLineStart;
     using ::ImTextCharFromUtf8;
     using ::ImTextCharToUtf8;
+    using ::ImTextClassifierClear;
+    using ::ImTextClassifierSetCharClass;
+    using ::ImTextClassifierSetCharClassFromStr;
     using ::ImTextCountCharsFromUtf8;
     using ::ImTextCountLines;
     using ::ImTextCountUtf8BytesFromChar;
     using ::ImTextCountUtf8BytesFromStr;
     using ::ImTextFindPreviousUtf8Codepoint;
     using ::ImTextFindValidUtf8CodepointEnd;
+    using ::ImTextInitClassifiers;
     using ::ImTextStrFromUtf8;
     using ::ImTextStrToUtf8;
     using ::ImTextureDataGetFormatBytesPerPixel;
@@ -644,6 +655,7 @@ namespace ImGui {
     using ImGui::ButtonEx;
     using ImGui::CalcClipRectVisibleItemsY;
     using ImGui::CalcItemSize;
+    using ImGui::CalcRoundingFlagsForRectInRect;
     using ImGui::CalcTypematicRepeatAmount;
     using ImGui::CalcWindowNextAutoFitSize;
     using ImGui::CalcWrapWidthForPos;
@@ -703,6 +715,7 @@ namespace ImGui {
     using ImGui::DebugRenderKeyboardPreview;
     using ImGui::DebugRenderViewportThumbnail;
     using ImGui::DebugTextUnformattedWithLocateItem;
+    using ImGui::DebugTextureIDToU64;
     using ImGui::DragBehavior;
     using ImGui::EndBoxSelect;
     using ImGui::EndColumns;
@@ -754,18 +767,19 @@ namespace ImGui {
     using ImGui::GetIDWithSeed;
     using ImGui::GetIO;
     using ImGui::GetInputTextState;
-    using ImGui::GetItemFlags;
     using ImGui::GetItemStatusFlags;
     using ImGui::GetKeyChordName;
     using ImGui::GetKeyData;
     using ImGui::GetKeyMagnitude2d;
     using ImGui::GetKeyOwner;
     using ImGui::GetKeyOwnerData;
+    using ImGui::GetMouseButtonFromPopupFlags;
     using ImGui::GetMultiSelectState;
     using ImGui::GetNavTweakPressedAmount;
     using ImGui::GetPlatformIO;
     using ImGui::GetPopupAllowedExtentRect;
     using ImGui::GetRoundedFontSize;
+    using ImGui::GetScale;
     using ImGui::GetShortcutRoutingData;
     using ImGui::GetStyleVarInfo;
     using ImGui::GetTopMostAndVisiblePopupModal;
@@ -776,6 +790,7 @@ namespace ImGui {
     using ImGui::GetWindowResizeCornerID;
     using ImGui::GetWindowScrollbarID;
     using ImGui::GetWindowScrollbarRect;
+    using ImGui::GetWindowViewport;
     using ImGui::ImageButtonEx;
     using ImGui::Initialize;
     using ImGui::InputTextDeactivateHook;
@@ -859,6 +874,7 @@ namespace ImGui {
     using ImGui::RenderArrowPointingAt;
     using ImGui::RenderBullet;
     using ImGui::RenderCheckMark;
+    using ImGui::RenderColorComponentMarker;
     using ImGui::RenderColorRectWithAlphaCheckerboard;
     using ImGui::RenderDragDropTargetRectEx;
     using ImGui::RenderDragDropTargetRectForItem;
@@ -866,7 +882,7 @@ namespace ImGui {
     using ImGui::RenderFrameBorder;
     using ImGui::RenderMouseCursor;
     using ImGui::RenderNavCursor;
-    using ImGui::RenderRectFilledRangeH;
+    using ImGui::RenderRectFilledInRangeH;
     using ImGui::RenderRectFilledWithHole;
     using ImGui::RenderText;
     using ImGui::RenderTextClipped;
@@ -884,6 +900,7 @@ namespace ImGui {
     using ImGui::SeparatorTextEx;
     using ImGui::SetActiveID;
     using ImGui::SetActiveIdUsingAllKeyboardKeys;
+    using ImGui::SetContextName;
     using ImGui::SetCurrentFont;
     using ImGui::SetFocusID;
     using ImGui::SetFontRasterizerDensity;
@@ -896,6 +913,7 @@ namespace ImGui {
     using ImGui::SetNavFocusScope;
     using ImGui::SetNavID;
     using ImGui::SetNavWindow;
+    using ImGui::SetNextItemColorMarker;
     using ImGui::SetNextItemRefVal;
     using ImGui::SetNextWindowRefreshPolicy;
     using ImGui::SetScrollFromPosX;
@@ -953,6 +971,7 @@ namespace ImGui {
     using ImGui::TableEndRow;
     using ImGui::TableFindByID;
     using ImGui::TableFixColumnSortDirection;
+    using ImGui::TableFixDisplayOrder;
     using ImGui::TableGcCompactSettings;
     using ImGui::TableGcCompactTransientBuffers;
     using ImGui::TableGetBoundSettings;
@@ -976,6 +995,7 @@ namespace ImGui {
     using ImGui::TableRemove;
     using ImGui::TableResetSettings;
     using ImGui::TableSaveSettings;
+    using ImGui::TableSetColumnDisplayOrder;
     using ImGui::TableSetColumnSortDirection;
     using ImGui::TableSetColumnWidth;
     using ImGui::TableSetColumnWidthAutoAll;
