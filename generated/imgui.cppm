@@ -164,6 +164,7 @@ export {
     using ::ImGuiColorEditFlags_NoSidePreview;
     using ::ImGuiColorEditFlags_NoDragDrop;
     using ::ImGuiColorEditFlags_NoBorder;
+    using ::ImGuiColorEditFlags_NoColorMarkers;
     using ::ImGuiColorEditFlags_AlphaOpaque;
     using ::ImGuiColorEditFlags_AlphaNoBg;
     using ::ImGuiColorEditFlags_AlphaPreviewHalf;
@@ -346,6 +347,7 @@ export {
     using ::ImGuiItemFlags_ButtonRepeat;
     using ::ImGuiItemFlags_AutoClosePopups;
     using ::ImGuiItemFlags_AllowDuplicateId;
+    using ::ImGuiItemFlags_Disabled;
 
     using ::ImGuiKey;
     using ::ImGuiKey_None;
@@ -570,14 +572,15 @@ export {
     using ::ImGuiPopupFlags_MouseButtonLeft;
     using ::ImGuiPopupFlags_MouseButtonRight;
     using ::ImGuiPopupFlags_MouseButtonMiddle;
-    using ::ImGuiPopupFlags_MouseButtonMask_;
-    using ::ImGuiPopupFlags_MouseButtonDefault_;
     using ::ImGuiPopupFlags_NoReopen;
     using ::ImGuiPopupFlags_NoOpenOverExistingPopup;
     using ::ImGuiPopupFlags_NoOpenOverItems;
     using ::ImGuiPopupFlags_AnyPopupId;
     using ::ImGuiPopupFlags_AnyPopupLevel;
     using ::ImGuiPopupFlags_AnyPopup;
+    using ::ImGuiPopupFlags_MouseButtonShift_;
+    using ::ImGuiPopupFlags_MouseButtonMask_;
+    using ::ImGuiPopupFlags_InvalidMask_;
 
     using ::ImGuiSelectableFlags_;
     using ::ImGuiSelectableFlags_None;
@@ -603,6 +606,7 @@ export {
     using ::ImGuiSliderFlags_ClampOnInput;
     using ::ImGuiSliderFlags_ClampZeroRange;
     using ::ImGuiSliderFlags_NoSpeedTweaks;
+    using ::ImGuiSliderFlags_ColorMarkers;
     using ::ImGuiSliderFlags_AlwaysClamp;
     using ::ImGuiSliderFlags_InvalidMask_;
 
@@ -635,6 +639,7 @@ export {
     using ::ImGuiStyleVar_ScrollbarPadding;
     using ::ImGuiStyleVar_GrabMinSize;
     using ::ImGuiStyleVar_GrabRounding;
+    using ::ImGuiStyleVar_ImageRounding;
     using ::ImGuiStyleVar_ImageBorderSize;
     using ::ImGuiStyleVar_TabRounding;
     using ::ImGuiStyleVar_TabBorderSize;
@@ -1075,6 +1080,7 @@ namespace ImGui {
     using ImGui::GetFrameHeightWithSpacing;
     using ImGui::GetID;
     using ImGui::GetIO;
+    using ImGui::GetItemFlags;
     using ImGui::GetItemID;
     using ImGui::GetItemRectMax;
     using ImGui::GetItemRectMin;

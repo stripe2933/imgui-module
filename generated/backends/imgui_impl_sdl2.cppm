@@ -10,6 +10,7 @@ export {
     // ----- Types -----
 
     using ::ImGui_ImplSDL2_GamepadMode;
+    using ::ImGui_ImplSDL2_MouseCaptureMode;
     using ::SDL_Event;
     using ::SDL_Renderer;
     using ::SDL_Window;
@@ -28,5 +29,6 @@ export {
     using ::ImGui_ImplSDL2_NewFrame;
     using ::ImGui_ImplSDL2_ProcessEvent;
     using ::ImGui_ImplSDL2_SetGamepadMode;
+    using ::ImGui_ImplSDL2_SetMouseCaptureMode;
     using ::ImGui_ImplSDL2_Shutdown;
 }
