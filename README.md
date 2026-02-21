@@ -44,6 +44,16 @@ If you want to use ImGui with an older version, different feature configuration 
 
 5. The generated bindings will be in the [`generated`](generated) folder. You can use them as described in the previous section.
 
+### Combined Module for Both `main` and `docking` Branches
+
+Starting from ImGui 1.92.7, now the workflow provides modules that are capable of both `main` and `docking` branches. Symbols are guarded by `IMGUI_HAS_DOCK` preprocessor definitions. For this purpose, `symbol_pickle.py` and `symbol_merge.py` Python scripts are provided.
+
+The brief workflow is as follows:
+
+1. Checkout ImGui with `main branch`, generates cimgui bindings, and run `symbol_pickle.py --branch=main` to generate symbol pickle file for `main` branch.
+2. Checkout ImGui with `docking branch`, generates cimgui bindings, and run `symbol_pickle.py --branch=docking` to generate symbol pickle file for `docking` branch.
+3. Run `symbol_merge.py` to merge the two pickle files and generate the combined module. The script will calculate the difference of symbols between the two branches and guard the symbols with `IMGUI_HAS_DOCK` preprocessor definitions.
+
 ## Examples
 
 ![Example Screenshot](docs/img/example-screenshot.png)

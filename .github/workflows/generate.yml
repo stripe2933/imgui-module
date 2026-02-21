@@ -31,10 +31,6 @@ jobs:
     runs-on: ubuntu-latest
     if: needs.check-release.outputs.new_version != ''
 
-    strategy:
-      matrix:
-        tag_suffix: ['', '-docking']
-
     steps:
       - uses: actions/checkout@v4
         with:
@@ -43,20 +39,31 @@ jobs:
       - name: Setup dependencies
         run: sudo apt install luajit libvulkan-dev
 
-      - name: Checkout imgui with the latest version and run cimgui generator
-        working-directory: cimgui
+      - name: Generate main branch
         run: |
-          git clone --depth 1 --branch ${{ needs.check-release.outputs.new_version }}${{ matrix.tag_suffix }} https://github.com/ocornut/imgui.git
+          cd cimgui
+          git clone --depth 1 --branch ${{ needs.check-release.outputs.new_version }} https://github.com/ocornut/imgui.git
           cd generator
           ./generator.sh -c "glfw opengl3 opengl2 sdl2 sdl3 vulkan"
+          cd ../../
+          python3 symbol_pickle.py --branch=main
 
-      - name: Generate C++ module binding
-        run: python3 generate.py
+      - name: Generate docking branch
+        run: |
+          cd cimgui/imgui
+          git checkout ${{ needs.check-release.outputs.new_version }}-docking
+          cd ../generator
+          ./generator.sh -c "glfw opengl3 opengl2 sdl2 sdl3 vulkan"
+          cd ../../
+          python3 symbol_pickle.py --branch=docking
+
+      - name: Merge generated files
+        run: python3 symbol_merge.py
 
       - name: Upload generated module binding files
         uses: actions/upload-artifact@v4
         with:
-          name: generated${{ matrix.tag_suffix }}
+          name: generated
           path: generated/
 
   build-examples:
@@ -85,7 +92,7 @@ jobs:
       - name: Download generated module binding files
         uses: actions/download-artifact@v4
         with:
-          name: generated${{ matrix.tag_suffix }}
+          name: generated
           path: generated
 
       - name: Install build dependencies (Ubuntu)
@@ -129,24 +136,16 @@ jobs:
     needs: [check-release, generate-binding, build-examples]
     runs-on: ubuntu-slim
 
-    strategy:
-      matrix:
-        include:
-          - { branch: 'main',    tag_suffix: '' }
-          - { branch: 'docking', tag_suffix: '-docking' }
-
     permissions:
       contents: write
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ matrix.branch }}
 
       - name: Replace the module binding files with the generated artifacts
         uses: actions/download-artifact@v4
         with:
-          name: generated${{ matrix.tag_suffix }}
+          name: generated
           path: generated
 
       - name: Commit and push
