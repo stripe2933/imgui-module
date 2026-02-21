@@ -23,13 +23,31 @@ def get_symbol_location(symbol: str) -> str:
 
 class OutputDict(defaultdict):
     def __missing__(self, key):
-        self[key] = f"module;\n\n#include <{key}.h>\n\nexport module {key};\n\n"
+        self[key] = ("module;\n"
+                     "\n"
+                    f"#include <{key}.h>\n"
+                     "\n"
+                    f"export module {key};\n\n")
 
         if key == "imgui":
             # cimgui does not handle math operators at all, so we need to manually export them.
-            self[key] += "export {\n#ifdef IMGUI_DEFINE_MATH_OPERATORS\n    using ::operator+;\n    using ::operator-;\n    using ::operator*;\n    using ::operator/;\n    using ::operator+=;\n    using ::operator-=;\n    using ::operator*=;\n    using ::operator/=;\n    using ::operator==;\n    using ::operator!=;\n#endif\n\n"
+            self[key] += ("export {\n"
+                          "#ifdef IMGUI_DEFINE_MATH_OPERATORS\n"
+                          "    using ::operator+;\n"
+                          "    using ::operator-;\n"
+                          "    using ::operator*;\n"
+                          "    using ::operator/;\n"
+                          "    using ::operator+=;\n"
+                          "    using ::operator-=;\n"
+                          "    using ::operator*=;\n"
+                          "    using ::operator/=;\n"
+                          "    using ::operator==;\n"
+                          "    using ::operator!=;\n"
+                          "#endif\n\n")
         else:
-            self[key] += "export import imgui;\n\nexport {\n"
+            self[key] += ("export import imgui;\n"
+                          "\n"
+                          "export {\n")
 
         return self[key]
 
@@ -147,7 +165,11 @@ with open("cimgui/generator/output/definitions.json", "r") as file:
         if location == "imgui":
             # IMGUI_CHECKVERSION() is a macro that cannot be exported by module.
             # For workaround, we define a function that calls the macro.
-            outputs[location] += "\n    /**\n     * @brief Use this for the replacement of <tt>IMGUI_CHECKVERSION()</tt>.\n     */\n    void CheckVersion() { IMGUI_CHECKVERSION(); };\n"
+            outputs[location] += ("\n"
+                                  "    /**\n"
+                                  "     * @brief Use this for the replacement of <tt>IMGUI_CHECKVERSION()</tt>.\n"
+                                  "     */\n"
+                                  "    void CheckVersion() { IMGUI_CHECKVERSION(); };\n")
 
         outputs[location] += "}\n"
 
