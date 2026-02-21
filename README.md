@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Use ImGui with `import imgui;`. This binding is generated with [cimgui](https://github.com/cimgui/cimgui?tab=readme-ov-file) and regularly updated and tested with [GitHub Actions](.github/workflows/generate-and-build.yml).
+Use ImGui with `import imgui;`. This binding is generated with [cimgui](https://github.com/cimgui/cimgui?tab=readme-ov-file) and regularly updated and tested with [GitHub Actions](.github/workflows/generate.yml).
 
 ## Usage
 
