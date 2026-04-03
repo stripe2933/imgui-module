@@ -62,6 +62,12 @@ export {
     using ::ImGuiBackendFlags_HasSetMousePos;
     using ::ImGuiBackendFlags_RendererHasVtxOffset;
     using ::ImGuiBackendFlags_RendererHasTextures;
+#ifdef IMGUI_HAS_DOCK
+    using ::ImGuiBackendFlags_RendererHasViewports;
+    using ::ImGuiBackendFlags_PlatformHasViewports;
+    using ::ImGuiBackendFlags_HasMouseHoveredViewport;
+    using ::ImGuiBackendFlags_HasParentViewport;
+#endif
 
     using ::ImGuiButtonFlags_;
     using ::ImGuiButtonFlags_None;
@@ -70,6 +76,7 @@ export {
     using ::ImGuiButtonFlags_MouseButtonMiddle;
     using ::ImGuiButtonFlags_MouseButtonMask_;
     using ::ImGuiButtonFlags_EnableNav;
+    using ::ImGuiButtonFlags_AllowOverlap;
 
     using ::ImGuiChildFlags_;
     using ::ImGuiChildFlags_None;
@@ -145,6 +152,10 @@ export {
     using ::ImGuiCol_NavWindowingDimBg;
     using ::ImGuiCol_ModalWindowDimBg;
     using ::ImGuiCol_COUNT;
+#ifdef IMGUI_HAS_DOCK
+    using ::ImGuiCol_DockingPreview;
+    using ::ImGuiCol_DockingEmptyBg;
+#endif
 
     using ::ImGuiColorEditFlags_;
     using ::ImGuiColorEditFlags_None;
@@ -208,6 +219,10 @@ export {
     using ::ImGuiConfigFlags_NoKeyboard;
     using ::ImGuiConfigFlags_IsSRGB;
     using ::ImGuiConfigFlags_IsTouchScreen;
+#ifdef IMGUI_HAS_DOCK
+    using ::ImGuiConfigFlags_DockingEnable;
+    using ::ImGuiConfigFlags_ViewportsEnable;
+#endif
 
     using ::ImGuiDataType_;
     using ::ImGuiDataType_S8;
@@ -255,6 +270,9 @@ export {
     using ::ImGuiFocusedFlags_AnyWindow;
     using ::ImGuiFocusedFlags_NoPopupHierarchy;
     using ::ImGuiFocusedFlags_RootAndChildWindows;
+#ifdef IMGUI_HAS_DOCK
+    using ::ImGuiFocusedFlags_DockHierarchy;
+#endif
 
     using ::ImGuiHoveredFlags_;
     using ::ImGuiHoveredFlags_None;
@@ -277,6 +295,9 @@ export {
     using ::ImGuiHoveredFlags_DelayShort;
     using ::ImGuiHoveredFlags_DelayNormal;
     using ::ImGuiHoveredFlags_NoSharedDelay;
+#ifdef IMGUI_HAS_DOCK
+    using ::ImGuiHoveredFlags_DockHierarchy;
+#endif
 
     using ::ImGuiInputFlags_;
     using ::ImGuiInputFlags_None;
@@ -542,10 +563,12 @@ export {
     using ::ImGuiMultiSelectFlags_ClearOnClickVoid;
     using ::ImGuiMultiSelectFlags_ScopeWindow;
     using ::ImGuiMultiSelectFlags_ScopeRect;
-    using ::ImGuiMultiSelectFlags_SelectOnClick;
+    using ::ImGuiMultiSelectFlags_SelectOnAuto;
+    using ::ImGuiMultiSelectFlags_SelectOnClickAlways;
     using ::ImGuiMultiSelectFlags_SelectOnClickRelease;
     using ::ImGuiMultiSelectFlags_NavWrapX;
     using ::ImGuiMultiSelectFlags_NoSelectOnRightClick;
+    using ::ImGuiMultiSelectFlags_SelectOnMask_;
 
     using ::ImGuiPopupFlags_;
     using ::ImGuiPopupFlags_None;
@@ -633,10 +656,14 @@ export {
     using ::ImGuiStyleVar_TreeLinesRounding;
     using ::ImGuiStyleVar_ButtonTextAlign;
     using ::ImGuiStyleVar_SelectableTextAlign;
+    using ::ImGuiStyleVar_SeparatorSize;
     using ::ImGuiStyleVar_SeparatorTextBorderSize;
     using ::ImGuiStyleVar_SeparatorTextAlign;
     using ::ImGuiStyleVar_SeparatorTextPadding;
     using ::ImGuiStyleVar_COUNT;
+#ifdef IMGUI_HAS_DOCK
+    using ::ImGuiStyleVar_DockingSeparatorSize;
+#endif
 
     using ::ImGuiTabBarFlags_;
     using ::ImGuiTabBarFlags_None;
@@ -773,6 +800,19 @@ export {
     using ::ImGuiViewportFlags_IsPlatformWindow;
     using ::ImGuiViewportFlags_IsPlatformMonitor;
     using ::ImGuiViewportFlags_OwnedByApp;
+#ifdef IMGUI_HAS_DOCK
+    using ::ImGuiViewportFlags_NoDecoration;
+    using ::ImGuiViewportFlags_NoTaskBarIcon;
+    using ::ImGuiViewportFlags_NoFocusOnAppearing;
+    using ::ImGuiViewportFlags_NoFocusOnClick;
+    using ::ImGuiViewportFlags_NoInputs;
+    using ::ImGuiViewportFlags_NoRendererClear;
+    using ::ImGuiViewportFlags_NoAutoMerge;
+    using ::ImGuiViewportFlags_TopMost;
+    using ::ImGuiViewportFlags_CanHostOtherWindows;
+    using ::ImGuiViewportFlags_IsMinimized;
+    using ::ImGuiViewportFlags_IsFocused;
+#endif
 
     using ::ImGuiWindowFlags_;
     using ::ImGuiWindowFlags_None;
@@ -803,6 +843,10 @@ export {
     using ::ImGuiWindowFlags_Popup;
     using ::ImGuiWindowFlags_Modal;
     using ::ImGuiWindowFlags_ChildMenu;
+#ifdef IMGUI_HAS_DOCK
+    using ::ImGuiWindowFlags_NoDocking;
+    using ::ImGuiWindowFlags_DockNodeHost;
+#endif
 
     using ::ImTextureFormat;
     using ::ImTextureFormat_RGBA32;
@@ -814,6 +858,18 @@ export {
     using ::ImTextureStatus_WantCreate;
     using ::ImTextureStatus_WantUpdates;
     using ::ImTextureStatus_WantDestroy;
+
+#ifdef IMGUI_HAS_DOCK
+    using ::ImGuiDockNodeFlags_;
+    using ::ImGuiDockNodeFlags_None;
+    using ::ImGuiDockNodeFlags_KeepAliveOnly;
+    using ::ImGuiDockNodeFlags_NoDockingOverCentralNode;
+    using ::ImGuiDockNodeFlags_PassthruCentralNode;
+    using ::ImGuiDockNodeFlags_NoDockingSplit;
+    using ::ImGuiDockNodeFlags_NoResize;
+    using ::ImGuiDockNodeFlags_AutoHideTabBar;
+    using ::ImGuiDockNodeFlags_NoUndocking;
+#endif
 
     // ----- Structs -----
 
@@ -859,6 +915,10 @@ export {
     using ::ImVec2;
     using ::ImVec4;
     using ::ImVector;
+#ifdef IMGUI_HAS_DOCK
+    using ::ImGuiPlatformMonitor;
+    using ::ImGuiWindowClass;
+#endif
 
     // ----- Type aliases -----
 
@@ -921,6 +981,9 @@ export {
     using ::ImWchar;
     using ::ImWchar16;
     using ::ImWchar32;
+#ifdef IMGUI_HAS_DOCK
+    using ::ImGuiDockNodeFlags;
+#endif
 
     // ----- Functions -----
 
@@ -1278,6 +1341,7 @@ namespace ImGui {
     using ImGui::TreeNode;
     using ImGui::TreeNodeEx;
     using ImGui::TreeNodeExV;
+    using ImGui::TreeNodeGetOpen;
     using ImGui::TreeNodeV;
     using ImGui::TreePop;
     using ImGui::TreePush;
@@ -1286,6 +1350,22 @@ namespace ImGui {
     using ImGui::VSliderInt;
     using ImGui::VSliderScalar;
     using ImGui::Value;
+#ifdef IMGUI_HAS_DOCK
+    using ImGui::DestroyPlatformWindows;
+    using ImGui::DockSpace;
+    using ImGui::DockSpaceOverViewport;
+    using ImGui::FindViewportByID;
+    using ImGui::FindViewportByPlatformHandle;
+    using ImGui::GetWindowDockID;
+    using ImGui::GetWindowDpiScale;
+    using ImGui::GetWindowViewport;
+    using ImGui::IsWindowDocked;
+    using ImGui::RenderPlatformWindowsDefault;
+    using ImGui::SetNextWindowClass;
+    using ImGui::SetNextWindowDockID;
+    using ImGui::SetNextWindowViewport;
+    using ImGui::UpdatePlatformWindows;
+#endif
 
     /**
      * @brief Use this for the replacement of <tt>IMGUI_CHECKVERSION()</tt>.

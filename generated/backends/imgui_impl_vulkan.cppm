@@ -30,6 +30,9 @@ export {
     using ::VkPresentModeKHR;
     using ::VkSampler;
     using ::VkSurfaceKHR;
+#ifdef IMGUI_HAS_DOCK
+    using ::ImGuiViewport;
+#endif
 
     // ----- Functions -----
 
@@ -50,4 +53,7 @@ export {
     using ::ImGui_ImplVulkan_SetMinImageCount;
     using ::ImGui_ImplVulkan_Shutdown;
     using ::ImGui_ImplVulkan_UpdateTexture;
+#ifdef IMGUI_HAS_DOCK
+    using ::ImGui_ImplVulkanH_GetWindowDataFromViewport;
+#endif
 }
