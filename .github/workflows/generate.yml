@@ -51,6 +51,7 @@ jobs:
       - name: Generate docking branch
         run: |
           cd cimgui/imgui
+          git fetch origin tag ${{ needs.check-release.outputs.new_version }}-docking
           git checkout ${{ needs.check-release.outputs.new_version }}-docking
           cd ../generator
           ./generator.sh -c "glfw opengl3 opengl2 sdl2 sdl3 vulkan"
