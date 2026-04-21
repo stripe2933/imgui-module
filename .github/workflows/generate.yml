@@ -32,7 +32,7 @@ jobs:
     if: needs.check-release.outputs.new_version != ''
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: 'true'
 
@@ -62,7 +62,7 @@ jobs:
         run: python3 symbol_merge.py
 
       - name: Upload generated module binding files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: generated
           path: generated/
@@ -84,14 +84,14 @@ jobs:
           - { tag_suffix: '-docking', os: 'ubuntu-latest',  compiler: 'clang' }
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Checkout imgui with the latest version
         working-directory: cimgui
         run: git clone --depth 1 --branch ${{ needs.check-release.outputs.new_version }}${{ matrix.tag_suffix }} https://github.com/ocornut/imgui.git
 
       - name: Download generated module binding files
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: generated
           path: generated
@@ -141,10 +141,10 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Replace the module binding files with the generated artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: generated
           path: generated
