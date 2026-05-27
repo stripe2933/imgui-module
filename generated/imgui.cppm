@@ -22,12 +22,12 @@ export {
 
     using ::ImDrawFlags_;
     using ::ImDrawFlags_None;
-    using ::ImDrawFlags_Closed;
     using ::ImDrawFlags_RoundCornersTopLeft;
     using ::ImDrawFlags_RoundCornersTopRight;
     using ::ImDrawFlags_RoundCornersBottomLeft;
     using ::ImDrawFlags_RoundCornersBottomRight;
     using ::ImDrawFlags_RoundCornersNone;
+    using ::ImDrawFlags_Closed;
     using ::ImDrawFlags_RoundCornersTop;
     using ::ImDrawFlags_RoundCornersBottom;
     using ::ImDrawFlags_RoundCornersLeft;
@@ -35,6 +35,7 @@ export {
     using ::ImDrawFlags_RoundCornersAll;
     using ::ImDrawFlags_RoundCornersDefault_;
     using ::ImDrawFlags_RoundCornersMask_;
+    using ::ImDrawFlags_InvalidMask_;
 
     using ::ImDrawListFlags_;
     using ::ImDrawListFlags_None;
@@ -54,6 +55,7 @@ export {
     using ::ImFontFlags_NoLoadError;
     using ::ImFontFlags_NoLoadGlyphs;
     using ::ImFontFlags_LockBakedSizes;
+    using ::ImFontFlags_ImplicitRefSize;
 
     using ::ImGuiBackendFlags_;
     using ::ImGuiBackendFlags_None;
@@ -110,6 +112,7 @@ export {
     using ::ImGuiCol_ScrollbarGrabHovered;
     using ::ImGuiCol_ScrollbarGrabActive;
     using ::ImGuiCol_CheckMark;
+    using ::ImGuiCol_CheckboxSelectedBg;
     using ::ImGuiCol_SliderGrab;
     using ::ImGuiCol_SliderGrabActive;
     using ::ImGuiCol_Button;
@@ -654,6 +657,7 @@ export {
     using ::ImGuiStyleVar_TableAngledHeadersTextAlign;
     using ::ImGuiStyleVar_TreeLinesSize;
     using ::ImGuiStyleVar_TreeLinesRounding;
+    using ::ImGuiStyleVar_DragDropTargetRounding;
     using ::ImGuiStyleVar_ButtonTextAlign;
     using ::ImGuiStyleVar_SelectableTextAlign;
     using ::ImGuiStyleVar_SeparatorSize;

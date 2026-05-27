@@ -28,7 +28,6 @@ export {
     using ::VkPhysicalDevice;
     using ::VkPipeline;
     using ::VkPresentModeKHR;
-    using ::VkSampler;
     using ::VkSurfaceKHR;
 #ifdef IMGUI_HAS_DOCK
     using ::ImGuiViewport;

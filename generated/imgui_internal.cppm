@@ -171,6 +171,7 @@ export {
     using ::ImGuiItemStatusFlags_Visible;
     using ::ImGuiItemStatusFlags_HasClipRect;
     using ::ImGuiItemStatusFlags_HasShortcut;
+    using ::ImGuiItemStatusFlags_EditedInternal;
 
     using ::ImGuiLayoutType_;
     using ::ImGuiLayoutType_Horizontal;
@@ -684,6 +685,7 @@ export {
     using ::ImTextureDataGetFormatBytesPerPixel;
     using ::ImTextureDataGetFormatName;
     using ::ImTextureDataGetStatusName;
+    using ::ImTextureDataQueueUpload;
     using ::ImToUpper;
     using ::ImTriangleArea;
     using ::ImTriangleBarycentricCoords;
@@ -804,6 +806,7 @@ namespace ImGui {
     using ImGui::FindBestWindowPosForPopupEx;
     using ImGui::FindBlockingModal;
     using ImGui::FindBottomMostVisibleWindowWithinBeginStack;
+    using ImGui::FindFrontMostVisibleChildWindow;
     using ImGui::FindHoveredWindowEx;
     using ImGui::FindOrCreateColumns;
     using ImGui::FindRenderedTextEnd;
@@ -871,6 +874,7 @@ namespace ImGui {
     using ImGui::IsDragDropActive;
     using ImGui::IsDragDropPayloadBeingAccepted;
     using ImGui::IsGamepadKey;
+    using ImGui::IsInNavFocusRoute;
     using ImGui::IsItemActiveAsInputText;
     using ImGui::IsKeyChordPressed;
     using ImGui::IsKeyDown;
@@ -1031,6 +1035,7 @@ namespace ImGui {
     using ImGui::TabItemLabelAndCloseButton;
     using ImGui::TabItemSpacing;
     using ImGui::TableAngledHeadersRowEx;
+    using ImGui::TableApplyExternalUnclipRect;
     using ImGui::TableBeginApplyRequests;
     using ImGui::TableBeginCell;
     using ImGui::TableBeginContextMenuPopup;
