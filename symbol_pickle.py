@@ -89,18 +89,6 @@ with open("cimgui/generator/output/typedefs_dict.json", "r") as file:
 with open("cimgui/generator/output/definitions.json", "r") as file:
     data = json.load(file)
 
-    # Hardcoded functions that are called as ImGui::XXX(), but starts with "Im".
-    # Currently cimgui does not export whether the function is in the ImGui 
-    # namespace or not, therefore for now it is determined by the heuristic, by
-    # checking if the function name starts with "Im". These are exceptions to 
-    # the heuristic, which are in the ImGui namespace, but start with "Im".
-    predefined_namespace_funcs = {
-        "ImageWithBg",
-        "Image",
-        "ImageButton",
-        "ImageButtonEx",
-    }
-
     funcs_in_namespace: defaultdict[str, set[str]] = defaultdict(set) # Functions that are called as ImGui::XXX().
     funcs: defaultdict[str, set[str]] = defaultdict(set)
     for definition in chain.from_iterable(data.values()):
@@ -111,7 +99,9 @@ with open("cimgui/generator/output/definitions.json", "r") as file:
             # Definition is a free function.
             location = definition["location"].split(":")[0]
             function_name = definition["funcname"]
-            if function_name in predefined_namespace_funcs or not function_name.startswith("Im"):
+            namespace = definition.get("namespace")
+
+            if namespace is not None and function_name != namespace:
                 funcs_in_namespace[location].add(definition["funcname"])
             else:
                 funcs[location].add(function_name)

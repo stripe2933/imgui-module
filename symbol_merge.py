@@ -212,7 +212,13 @@ for location in funcs_main.keys() | funcs_in_namespace_main.keys():
 
 for location in funcs_main.keys():
     for function in sorted(funcs_main[location] & funcs_docking[location]):
-        outputs[location] += f"    using ::{function};\n"
+        # Workaround for https://github.com/stripe2933/imgui-module/issues/5
+        if location == "imgui_internal" and function == "ImFontAtlasGetFontLoaderForStbTruetype":
+            outputs[location] += ("#ifdef IMGUI_ENABLE_STB_TRUETYPE\n"
+                                  "    using ::ImFontAtlasGetFontLoaderForStbTruetype;\n"
+                                  "#endif\n")
+        else:
+            outputs[location] += f"    using ::{function};\n"
 
     funcs_only_in_docking = sorted(funcs_docking[location] - funcs_main[location])
     if funcs_only_in_docking:
@@ -236,16 +242,18 @@ for location in funcs_main.keys():
 for location in funcs_in_namespace_main.keys():
     if outputs[location][-2:] != "\n\n":
         outputs[location] += "\n"
-    outputs[location] += "namespace ImGui {\n"
+
+    namespace = "ImGuiFreeType" if location == "imgui_freetype" else "ImGui"
+    outputs[location] += f"namespace {namespace} {{\n"
 
     for function in sorted(funcs_in_namespace_main[location] & funcs_in_namespace_docking[location]):
-        outputs[location] += f"    using ImGui::{function};\n"
+        outputs[location] += f"    using {namespace}::{function};\n"
 
     funcs_in_namespace_only_in_docking = sorted(funcs_in_namespace_docking[location] - funcs_in_namespace_main[location])
     if funcs_in_namespace_only_in_docking:
         outputs[location] += "#ifdef IMGUI_HAS_DOCK\n"
         for function in funcs_in_namespace_only_in_docking:
-            outputs[location] += f"    using ImGui::{function};\n"
+            outputs[location] += f"    using {namespace}::{function};\n"
 
     funcs_in_namespace_only_in_main = sorted(funcs_in_namespace_main[location] - funcs_in_namespace_docking[location])
     if funcs_in_namespace_only_in_main:
@@ -255,7 +263,7 @@ for location in funcs_in_namespace_main.keys():
             outputs[location] += "#ifndef IMGUI_HAS_DOCK\n"
 
         for function in funcs_in_namespace_only_in_main:
-            outputs[location] += f"    using ImGui::{function};\n"
+            outputs[location] += f"    using {namespace}::{function};\n"
 
     if funcs_in_namespace_only_in_docking or funcs_in_namespace_only_in_main:
         outputs[location] += "#endif\n"

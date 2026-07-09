@@ -121,18 +121,6 @@ with open("cimgui/generator/output/typedefs_dict.json", "r") as file:
 with open("cimgui/generator/output/definitions.json", "r") as file:
     data = json.load(file)
 
-    # Hardcoded functions that are called as ImGui::XXX(), but starts with "Im".
-    # Currently cimgui does not export whether the function is in the ImGui 
-    # namespace or not, therefore for now it is determined by the heuristic, by
-    # checking if the function name starts with "Im". These are exceptions to 
-    # the heuristic, which are in the ImGui namespace, but start with "Im".
-    predefined_namespace_funcs = {
-        "ImageWithBg",
-        "Image",
-        "ImageButton",
-        "ImageButtonEx",
-    }
-
     funcs_in_namespace: defaultdict[str, set[str]] = defaultdict(set) # Functions that are called as ImGui::XXX().
     funcs: defaultdict[str, set[str]] = defaultdict(set)
     for definition in chain.from_iterable(data.values()):
@@ -143,8 +131,10 @@ with open("cimgui/generator/output/definitions.json", "r") as file:
             # Definition is a free function.
             location = definition["location"].split(":")[0]
             function_name = definition["funcname"]
-            if function_name in predefined_namespace_funcs or not function_name.startswith("Im"):
-                funcs_in_namespace[location].add(definition["funcname"])
+            namespace = definition.get("namespace")
+
+            if namespace is not None and function_name != namespace:
+                funcs_in_namespace[location].add(function_name)
             else:
                 funcs[location].add(function_name)
 
@@ -154,13 +144,21 @@ with open("cimgui/generator/output/definitions.json", "r") as file:
 
     for location, function_names in funcs.items():
         for function_name in sorted(function_names):
-            outputs[location] += f"    using ::{function_name};\n"
+            # Workaround for https://github.com/stripe2933/imgui-module/issues/5
+            if location == "imgui_internal" and function_name == "ImFontAtlasGetFontLoaderForStbTruetype":
+                outputs[location] += ("#ifdef IMGUI_ENABLE_STB_TRUETYPE\n"
+                                      "    using ::ImFontAtlasGetFontLoaderForStbTruetype;\n"
+                                      "#endif\n")
+            else:
+                outputs[location] += f"    using ::{function_name};\n"
+
         outputs[location] += "\n"
 
     for location, function_names in funcs_in_namespace.items():
-        outputs[location] += "namespace ImGui {\n"
+        namespace = "ImGuiFreeType" if location == "imgui_freetype" else "ImGui"
+        outputs[location] += f"namespace {namespace} {{\n"
         for function_name in sorted(function_names):
-            outputs[location] += f"    using ImGui::{function_name};\n"
+            outputs[location] += f"    using {namespace}::{function_name};\n"
 
         if location == "imgui":
             # IMGUI_CHECKVERSION() is a macro that cannot be exported by module.

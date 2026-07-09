@@ -592,7 +592,9 @@ export {
     using ::ImFontAtlasFontRebuildOutput;
     using ::ImFontAtlasFontSourceAddToFont;
     using ::ImFontAtlasFontSourceInit;
+#ifdef IMGUI_ENABLE_STB_TRUETYPE
     using ::ImFontAtlasGetFontLoaderForStbTruetype;
+#endif
     using ::ImFontAtlasGetMouseCursorTexData;
     using ::ImFontAtlasPackAddRect;
     using ::ImFontAtlasPackDiscardRect;

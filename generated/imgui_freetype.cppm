@@ -27,9 +27,9 @@ export {
 
     // ----- Functions -----
 
-namespace ImGui {
-    using ImGui::DebugEditFontLoaderFlags;
-    using ImGui::GetFontLoader;
-    using ImGui::SetAllocatorFunctions;
+namespace ImGuiFreeType {
+    using ImGuiFreeType::DebugEditFontLoaderFlags;
+    using ImGuiFreeType::GetFontLoader;
+    using ImGuiFreeType::SetAllocatorFunctions;
 }
 }
