@@ -78,8 +78,8 @@ jobs:
         include:
           - { tag_suffix: '',         os: 'windows-latest', compiler: 'msvc' }
           - { tag_suffix: '-docking', os: 'windows-latest', compiler: 'msvc' }
-          - { tag_suffix: '',         os: 'ubuntu-latest',  compiler: 'gcc' }
-          - { tag_suffix: '-docking', os: 'ubuntu-latest',  compiler: 'gcc' }
+          - { tag_suffix: '',         os: 'ubuntu-26.04',  compiler: 'gcc' }
+          - { tag_suffix: '-docking', os: 'ubuntu-26.04',  compiler: 'gcc' }
           - { tag_suffix: '',         os: 'ubuntu-latest',  compiler: 'clang' }
           - { tag_suffix: '-docking', os: 'ubuntu-latest',  compiler: 'clang' }
 
@@ -97,14 +97,10 @@ jobs:
           path: generated
 
       - name: Install build dependencies (Ubuntu)
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'ubuntu-26.04'
         run: |
           sudo apt-get -y update # https://github.com/actions/runner-images/issues/12599
           sudo apt-get install -y xorg-dev libwayland-dev libltdl-dev
-
-      - name: Install build dependencies (Ubuntu + GCC)
-        if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc'
-        uses: ./.github/actions/build-gcc-15
 
       - name: Install build dependencies (Ubuntu + Clang)
         if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'clang'
@@ -115,22 +111,11 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Configure CMake and Build
-        if: matrix.os != 'ubuntu-latest' || matrix.compiler != 'gcc'
         run: |
           mv .github/workflows/scripts/* examples
           cd examples
           cmake --preset=${{ matrix.os }}-${{ matrix.compiler }}
           cmake --build build --target glfw_vulkan --config Release
-
-      - name: Configure CMake and Build (Ubuntu + GCC)
-        if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc'
-        run: |
-          mv .github/workflows/scripts/* examples
-          cd examples
-          wget https://github.com/Kitware/CMake/releases/download/v4.0.3/cmake-4.0.3-linux-x86_64.tar.gz
-          tar -xf cmake-4.0.3-linux-x86_64.tar.gz
-          cmake-4.0.3-linux-x86_64/bin/cmake --preset=${{ matrix.os }}-${{ matrix.compiler }}
-          cmake-4.0.3-linux-x86_64/bin/cmake --build build --target glfw_vulkan --config Release
 
   release:
     name: Commit and push the updated module bindings
