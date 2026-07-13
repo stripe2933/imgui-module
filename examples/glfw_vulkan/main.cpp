@@ -41,11 +41,11 @@ public:
             surfaceCapabilities.currentTransform,
             vk::CompositeAlphaFlagBitsKHR::eOpaque,
             vk::PresentModeKHR::eFifo,
-            false,
-            oldSwapchain
+            true,
+            oldSwapchain,
         } },
         images { swapchain.getImages() },
-        imageViews { std::from_range, images | std::views::transform([&](vk::Image image) {
+        imageViews { std::from_range, std::views::transform(images, [&](vk::Image image) {
             return vk::raii::ImageView { device, vk::ImageViewCreateInfo {
                 {},
                 image,
@@ -55,7 +55,7 @@ public:
                 vk::ImageSubresourceRange { vk::ImageAspectFlagBits::eColor, 0, 1, 0, 1 },
             } };
         }) },
-        imageReadySemaphores { std::from_range, images | std::views::transform([&](auto) {
+        imageReadySemaphores { std::from_range, std::views::transform(images, [&](auto) {
             return vk::raii::Semaphore { device, vk::SemaphoreCreateInfo{} };
         }) } { }
 
@@ -98,7 +98,7 @@ public:
                 app->surface,
                 vk::Extent2D { static_cast<std::uint32_t>(width), static_cast<std::uint32_t>(height) },
                 app->physicalDevice.getSurfaceCapabilitiesKHR(app->surface),
-                *app->swapchain.swapchain
+                *app->swapchain.swapchain,
             };
             app->framebuffers = app->createFramebuffers();
         });
@@ -329,16 +329,14 @@ private:
     }
 
     [[nodiscard]] std::vector<vk::raii::Framebuffer> createFramebuffers() const {
-        return swapchain.imageViews
-            | std::views::transform([this](const vk::raii::ImageView &imageView) {
-                return vk::raii::Framebuffer { device, vk::FramebufferCreateInfo {
-                    {},
-                    *renderPass,
-                    *imageView,
-                    swapchain.extent.width, swapchain.extent.height, 1,
-                } };
-            })
-            | std::ranges::to<std::vector>();
+        return { std::from_range, std::views::transform(swapchain.imageViews, [this](const vk::raii::ImageView &imageView) {
+            return vk::raii::Framebuffer { device, vk::FramebufferCreateInfo {
+                {},
+                *renderPass,
+                *imageView,
+                swapchain.extent.width, swapchain.extent.height, 1,
+            } };
+        }) };
     }
 
     [[nodiscard]] vk::Extent2D getFramebufferExtent() const {

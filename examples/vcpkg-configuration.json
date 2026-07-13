@@ -11,5 +11,7 @@
       "name": "microsoft"
     }
   ],
-  "overlay-triplets": ["triplets"]
+  "overlay-triplets": [
+    "triplets"
+  ]
 }

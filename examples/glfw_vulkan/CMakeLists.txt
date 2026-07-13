@@ -36,9 +36,9 @@ add_library(imgui::glfw_vulkan_module ALIAS imgui_glfw_vulkan_module)
 # ----- Project CMake targets -----
 
 add_executable(glfw_vulkan main.cpp)
-target_compile_features(glfw_vulkan PUBLIC cxx_std_23)
+target_compile_features(glfw_vulkan PRIVATE cxx_std_23)
 target_link_libraries(glfw_vulkan PRIVATE
     imgui::glfw_vulkan_module
 )
 
-set_target_properties(glfw_vulkan PROPERTIES CXX_MODULE_STD 1)
+set_target_properties(glfw_vulkan PROPERTIES CXX_MODULE_STD ON)

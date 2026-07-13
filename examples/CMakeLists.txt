@@ -41,7 +41,7 @@ if (${Vulkan_FOUND})
             VULKAN_HPP_NO_TO_STRING
     )
     target_link_libraries(Vulkan_module PUBLIC Vulkan::Vulkan)
-    set_target_properties(Vulkan_module PROPERTIES CXX_MODULE_STD 1)
+    set_target_properties(Vulkan_module PROPERTIES CXX_MODULE_STD ON)
 
     add_library(Vulkan::module ALIAS Vulkan_module)
 endif()
