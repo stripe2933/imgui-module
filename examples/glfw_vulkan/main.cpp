@@ -1,15 +1,10 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
-#include <vulkan/vulkan_hpp_macros.hpp>
 
 import std;
 import imgui_impl_glfw;
 import imgui_impl_vulkan;
-import vulkan_hpp;
-
-#if VULKAN_HPP_DISPATCH_LOADER_DYNAMIC == 1
-VULKAN_HPP_DEFAULT_DISPATCH_LOADER_DYNAMIC_STORAGE
-#endif
+import vulkan;
 
 // Use at your own risk.
 template <typename T>
@@ -83,7 +78,7 @@ public:
         , physicalDevice { instance.enumeratePhysicalDevices().at(0) }
         , queueFamily { getQueueFamily() }
         , device { createDevice() }
-        , queue { (*device).getQueue(queueFamily, 0) }
+        , queue { (*device).getQueue(queueFamily, 0, *device.getDispatcher()) }
         , renderPass { createRenderPass() }
         , swapchain { device, *surface, getFramebufferExtent(), physicalDevice.getSurfaceCapabilitiesKHR(*surface) }
         , framebuffers { createFramebuffers() } {
@@ -145,7 +140,7 @@ public:
     void run() {
         // Create Vulkan command pool and allocate a command buffer.
         vk::raii::CommandPool commandPool { device, vk::CommandPoolCreateInfo { {}, queueFamily } };
-        vk::CommandBuffer frameCommandBuffer = (*device).allocateCommandBuffers({ *commandPool, vk::CommandBufferLevel::ePrimary, 1 })[0];
+        vk::CommandBuffer frameCommandBuffer = (*device).allocateCommandBuffers({ *commandPool, vk::CommandBufferLevel::ePrimary, 1 }, *device.getDispatcher())[0];
 
         // Frame synchronization stuffs.
         vk::raii::Semaphore imageAvailableSemaphore { device, vk::SemaphoreCreateInfo{} };
@@ -170,7 +165,7 @@ public:
             // Acquire swapchain image.
             std::uint32_t swapchainImageIndex;
             try {
-                swapchainImageIndex = (*device).acquireNextImageKHR(*swapchain.swapchain, ~0ULL, *imageAvailableSemaphore).value;
+                swapchainImageIndex = swapchain.swapchain.acquireNextImage(~0ULL, *imageAvailableSemaphore, {}).value;
             }
             catch (const vk::OutOfDateKHRError&) {
                 continue;
@@ -178,21 +173,21 @@ public:
 
             // Record frame command buffer.
             commandPool.reset();
-            frameCommandBuffer.begin({ vk::CommandBufferUsageFlagBits::eOneTimeSubmit });
+            frameCommandBuffer.begin({ vk::CommandBufferUsageFlagBits::eOneTimeSubmit }, *device.getDispatcher());
 
             frameCommandBuffer.beginRenderPass({
                 *renderPass,
                 *framebuffers[swapchainImageIndex],
                 vk::Rect2D { {}, swapchain.extent },
                 lvalue<vk::ClearValue>(vk::ClearColorValue { 0.f, 0.f, 0.f, 0.f }),
-            }, vk::SubpassContents::eInline);
+            }, vk::SubpassContents::eInline, *device.getDispatcher());
 
             // Draw ImGui.
             ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), frameCommandBuffer);
 
-            frameCommandBuffer.endRenderPass();
+            frameCommandBuffer.endRenderPass(*device.getDispatcher());
 
-            frameCommandBuffer.end();
+            frameCommandBuffer.end(*device.getDispatcher());
 
             // Submit frame command buffer.
             device.resetFences(*frameReadyFence);
@@ -201,11 +196,11 @@ public:
                 lvalue(vk::Flags { vk::PipelineStageFlagBits::eColorAttachmentOutput }),
                 frameCommandBuffer,
                 *swapchain.imageReadySemaphores[swapchainImageIndex],
-            }, *frameReadyFence);
+            }, *frameReadyFence, *device.getDispatcher());
 
             // Present the acquired swapchain image.
             try {
-                std::ignore = queue.presentKHR({ *swapchain.imageReadySemaphores[swapchainImageIndex], *swapchain.swapchain, swapchainImageIndex });
+                std::ignore = queue.presentKHR({ *swapchain.imageReadySemaphores[swapchainImageIndex], *swapchain.swapchain, swapchainImageIndex }, *device.getDispatcher());
             }
             catch (const vk::OutOfDateKHRError&) { }
         }
@@ -235,14 +230,9 @@ private:
     }
 
     [[nodiscard]] vk::raii::Instance createInstance() const {
-    #if VULKAN_HPP_DISPATCH_LOADER_DYNAMIC == 1
-        // Initialize Vulkan function pointers.
-        VULKAN_HPP_DEFAULT_DISPATCHER.init();
-    #endif
-
         std::vector<const char*> extensions;
 
-        for (const vk::ExtensionProperties &props : vk::enumerateInstanceExtensionProperties()) {
+        for (const vk::ExtensionProperties &props : context.enumerateInstanceExtensionProperties()) {
             if (static_cast<std::string_view>(props.extensionName) == vk::KHRPortabilityEnumerationExtensionName) {
                 // This application supports the Vulkan portability subset.
                 extensions.push_back(vk::KHRGetPhysicalDeviceProperties2ExtensionName);
@@ -256,7 +246,7 @@ private:
         const char** glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
         std::copy_n(glfwExtensions, glfwExtensionCount, back_inserter(extensions));
 
-        vk::raii::Instance result { context, vk::InstanceCreateInfo {
+        return { context, vk::InstanceCreateInfo {
             vk::InstanceCreateFlagBits::eEnumeratePortabilityKHR,
             &lvalue(vk::ApplicationInfo {
                 "ImGui Example", 0,
@@ -266,13 +256,6 @@ private:
             {},
             extensions,
         } };
-
-    #if VULKAN_HPP_DISPATCH_LOADER_DYNAMIC == 1
-        // Initialize per-instance Vulkan function pointers.
-        VULKAN_HPP_DEFAULT_DISPATCHER.init(*result);
-    #endif
-
-        return result;
     }
 
     [[nodiscard]] vk::raii::SurfaceKHR createSurface() const {
@@ -308,7 +291,7 @@ private:
             }
         }
 
-        vk::raii::Device result { physicalDevice, vk::DeviceCreateInfo {
+        return { physicalDevice, vk::DeviceCreateInfo {
             {},
             lvalue(vk::DeviceQueueCreateInfo {
                 {},
@@ -318,13 +301,6 @@ private:
             {},
             extensions,
         } };
-
-    #if VULKAN_HPP_DISPATCH_LOADER_DYNAMIC == 1
-        // Initialize per-device Vulkan function pointers.
-        VULKAN_HPP_DEFAULT_DISPATCHER.init(*result);
-    #endif
-
-        return result;
     }
 
     [[nodiscard]] vk::raii::RenderPass createRenderPass() const {

@@ -34,7 +34,6 @@ if (${Vulkan_FOUND})
     )
     target_compile_definitions(Vulkan_module
         PUBLIC
-            VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1
             VK_ENABLE_BETA_EXTENSIONS # VK_KHR_portability_subset
         PRIVATE
             VULKAN_HPP_NO_SETTERS
