@@ -27,14 +27,14 @@ export {
     using ::ImDrawFlags_RoundCornersBottomLeft;
     using ::ImDrawFlags_RoundCornersBottomRight;
     using ::ImDrawFlags_RoundCornersNone;
-    using ::ImDrawFlags_Closed;
+    using ::ImDrawFlags_RoundCornersAll;
+    using ::ImDrawFlags_RoundCornersDefault_;
     using ::ImDrawFlags_RoundCornersTop;
     using ::ImDrawFlags_RoundCornersBottom;
     using ::ImDrawFlags_RoundCornersLeft;
     using ::ImDrawFlags_RoundCornersRight;
-    using ::ImDrawFlags_RoundCornersAll;
-    using ::ImDrawFlags_RoundCornersDefault_;
     using ::ImDrawFlags_RoundCornersMask_;
+    using ::ImDrawFlags_Closed;
     using ::ImDrawFlags_InvalidMask_;
 
     using ::ImDrawListFlags_;
@@ -43,6 +43,7 @@ export {
     using ::ImDrawListFlags_AntiAliasedLinesUseTex;
     using ::ImDrawListFlags_AntiAliasedFill;
     using ::ImDrawListFlags_AllowVtxOffset;
+    using ::ImDrawListFlags_TextNoPixelSnap;
 
     using ::ImFontAtlasFlags_;
     using ::ImFontAtlasFlags_None;
@@ -185,6 +186,7 @@ export {
     using ::ImGuiColorEditFlags_Float;
     using ::ImGuiColorEditFlags_PickerHueBar;
     using ::ImGuiColorEditFlags_PickerHueWheel;
+    using ::ImGuiColorEditFlags_PickerNoRotate;
     using ::ImGuiColorEditFlags_InputRGB;
     using ::ImGuiColorEditFlags_InputHSV;
     using ::ImGuiColorEditFlags_DefaultOptions_;
@@ -352,6 +354,9 @@ export {
     using ::ImGuiItemFlags_AutoClosePopups;
     using ::ImGuiItemFlags_AllowDuplicateId;
     using ::ImGuiItemFlags_Disabled;
+    using ::ImGuiItemFlags_LiveEditOnInputText;
+    using ::ImGuiItemFlags_LiveEditOnInputScalar;
+    using ::ImGuiItemFlags_LiveEditOnInput;
 
     using ::ImGuiKey;
     using ::ImGuiKey_None;
@@ -572,6 +577,7 @@ export {
     using ::ImGuiMultiSelectFlags_NavWrapX;
     using ::ImGuiMultiSelectFlags_NoSelectOnRightClick;
     using ::ImGuiMultiSelectFlags_SelectOnMask_;
+    using ::ImGuiMultiSelectFlags_CheckboxMode_;
 
     using ::ImGuiPopupFlags_;
     using ::ImGuiPopupFlags_None;
@@ -657,6 +663,8 @@ export {
     using ::ImGuiStyleVar_TableAngledHeadersTextAlign;
     using ::ImGuiStyleVar_TreeLinesSize;
     using ::ImGuiStyleVar_TreeLinesRounding;
+    using ::ImGuiStyleVar_MenuItemRounding;
+    using ::ImGuiStyleVar_SelectableRounding;
     using ::ImGuiStyleVar_DragDropTargetRounding;
     using ::ImGuiStyleVar_ButtonTextAlign;
     using ::ImGuiStyleVar_SelectableTextAlign;
@@ -1105,6 +1113,7 @@ namespace ImGui {
     using ImGui::GetFrameHeightWithSpacing;
     using ImGui::GetID;
     using ImGui::GetIO;
+    using ImGui::GetItemClickedCountWithSingleClickDelay;
     using ImGui::GetItemFlags;
     using ImGui::GetItemID;
     using ImGui::GetItemRectMax;
@@ -1241,7 +1250,6 @@ namespace ImGui {
     using ImGui::SeparatorText;
     using ImGui::SetAllocatorFunctions;
     using ImGui::SetClipboardText;
-    using ImGui::SetColorEditOptions;
     using ImGui::SetColumnOffset;
     using ImGui::SetColumnWidth;
     using ImGui::SetCurrentContext;

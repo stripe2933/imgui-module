@@ -16,6 +16,7 @@ export {
 
     using ::ImGui_ImplOpenGL3_CreateDeviceObjects;
     using ::ImGui_ImplOpenGL3_DestroyDeviceObjects;
+    using ::ImGui_ImplOpenGL3_GetRenderState;
     using ::ImGui_ImplOpenGL3_Init;
     using ::ImGui_ImplOpenGL3_NewFrame;
     using ::ImGui_ImplOpenGL3_RenderDrawData;

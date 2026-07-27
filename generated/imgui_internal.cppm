@@ -79,6 +79,7 @@ export {
     using ::ImGuiDebugLogFlags_EventInputRouting;
     using ::ImGuiDebugLogFlags_EventDocking;
     using ::ImGuiDebugLogFlags_EventViewport;
+    using ::ImGuiDebugLogFlags_EventTable;
     using ::ImGuiDebugLogFlags_EventMask_;
     using ::ImGuiDebugLogFlags_OutputToTTY;
     using ::ImGuiDebugLogFlags_OutputToDebugger;
@@ -182,7 +183,9 @@ export {
     using ::ImGuiLocKey_TableSizeOne;
     using ::ImGuiLocKey_TableSizeAllFit;
     using ::ImGuiLocKey_TableSizeAllDefault;
+    using ::ImGuiLocKey_TableReset;
     using ::ImGuiLocKey_TableResetOrder;
+    using ::ImGuiLocKey_TableResetVisibility;
     using ::ImGuiLocKey_WindowingMainMenuBar;
     using ::ImGuiLocKey_WindowingPopup;
     using ::ImGuiLocKey_WindowingUntitled;
@@ -232,7 +235,6 @@ export {
     using ::ImGuiNavRenderCursorFlags_None;
     using ::ImGuiNavRenderCursorFlags_Compact;
     using ::ImGuiNavRenderCursorFlags_AlwaysDraw;
-    using ::ImGuiNavRenderCursorFlags_NoRounding;
 
     using ::ImGuiNextItemDataFlags_;
     using ::ImGuiNextItemDataFlags_None;
@@ -456,8 +458,10 @@ export {
     using ::ImGuiNextWindowData;
     using ::ImGuiOldColumnData;
     using ::ImGuiOldColumns;
+    using ::ImGuiPackedDate;
     using ::ImGuiPopupData;
     using ::ImGuiPtrOrIndex;
+    using ::ImGuiSettingsCleanupArgs;
     using ::ImGuiSettingsHandler;
     using ::ImGuiShrinkWidthItem;
     using ::ImGuiStackLevelInfo;
@@ -471,6 +475,7 @@ export {
     using ::ImGuiTableColumnSettings;
     using ::ImGuiTableHeaderData;
     using ::ImGuiTableInstanceData;
+    using ::ImGuiTableReconcileColumnData;
     using ::ImGuiTableSettings;
     using ::ImGuiTableTempData;
     using ::ImGuiTextIndex;
@@ -548,6 +553,7 @@ export {
     using ::ImBitArraySetBit;
     using ::ImBitArraySetBitRange;
     using ::ImBitArrayTestBit;
+    using ::ImCeilFast;
     using ::ImCharIsBlankA;
     using ::ImCharIsBlankW;
     using ::ImCharIsXdigitA;
@@ -688,6 +694,7 @@ export {
     using ::ImTextureDataGetFormatName;
     using ::ImTextureDataGetStatusName;
     using ::ImTextureDataQueueUpload;
+    using ::ImTextureDataUpdateNewFrame;
     using ::ImToUpper;
     using ::ImTriangleArea;
     using ::ImTriangleBarycentricCoords;
@@ -735,6 +742,7 @@ namespace ImGui {
     using ImGui::CalcWrapWidthForPos;
     using ImGui::CallContextHooks;
     using ImGui::CheckboxFlags;
+    using ImGui::CleanupIniSettings;
     using ImGui::ClearActiveID;
     using ImGui::ClearDragDrop;
     using ImGui::ClearIniSettings;
@@ -1038,7 +1046,7 @@ namespace ImGui {
     using ImGui::TabItemSpacing;
     using ImGui::TableAngledHeadersRowEx;
     using ImGui::TableApplyExternalUnclipRect;
-    using ImGui::TableBeginApplyRequests;
+    using ImGui::TableApplyQueuedRequests;
     using ImGui::TableBeginCell;
     using ImGui::TableBeginContextMenuPopup;
     using ImGui::TableBeginInitMemory;
@@ -1064,7 +1072,10 @@ namespace ImGui {
     using ImGui::TableGetHoveredRow;
     using ImGui::TableGetInstanceData;
     using ImGui::TableGetInstanceID;
+    using ImGui::TableInitColumnDefaults;
     using ImGui::TableLoadSettings;
+    using ImGui::TableLoadSettingsForColumn;
+    using ImGui::TableLoadSettingsForColumns;
     using ImGui::TableMergeDrawChannels;
     using ImGui::TableOpenContextMenu;
     using ImGui::TablePopBackgroundChannel;
@@ -1072,6 +1083,7 @@ namespace ImGui {
     using ImGui::TablePushBackgroundChannel;
     using ImGui::TablePushColumnChannel;
     using ImGui::TableQueueSetColumnDisplayOrder;
+    using ImGui::TableReconcileColumns;
     using ImGui::TableRemove;
     using ImGui::TableResetSettings;
     using ImGui::TableSaveSettings;
