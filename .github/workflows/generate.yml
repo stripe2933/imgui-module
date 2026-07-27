@@ -108,12 +108,13 @@ jobs:
         if: matrix.os == 'windows-latest' && matrix.compiler == 'msvc'
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Configure CMake and Build
+      - name: Configure
         run: |
           mv .github/workflows/scripts/* examples
-          cd examples
-          cmake --preset=${{ matrix.os }}-${{ matrix.compiler }}
-          cmake --build build --target glfw_vulkan --config Release
+          cmake -S examples --preset=${{ matrix.os }}-${{ matrix.compiler }}
+
+      - name: Build
+        run: cmake --build examples/build --target glfw_vulkan --config Release
 
   release:
     name: Commit and push the updated module bindings
