@@ -1,7 +1,10 @@
 /.github/ export-ignore
+/cimgui/ export-ignore
 /docs/ export-ignore
 /examples/ export-ignore
 /.gitattributes export-ignore
 /.gitmodules export-ignore
 /generate.py export-ignore
 /README.md export-ignore
+/symbol_merge.py export-ignore
+/symbol_pickle.py export-ignore
