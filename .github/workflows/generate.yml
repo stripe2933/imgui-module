@@ -76,8 +76,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { tag_suffix: '',         os: 'windows-latest', compiler: 'msvc' }
-          - { tag_suffix: '-docking', os: 'windows-latest', compiler: 'msvc' }
           - { tag_suffix: '',         os: 'ubuntu-26.04',  compiler: 'gcc' }
           - { tag_suffix: '-docking', os: 'ubuntu-26.04',  compiler: 'gcc' }
           - { tag_suffix: '',         os: 'ubuntu-latest',  compiler: 'clang' }
