@@ -108,7 +108,13 @@ jobs:
         if: matrix.os == 'windows-latest' && matrix.compiler == 'msvc'
         uses: ilammy/msvc-dev-cmd@v1
 
+      - uses: stripe2933/http-cache-server@v0.1.0
+        with:
+          port: 12321
+
       - name: Configure
+        env:
+          VCPKG_BINARY_SOURCES: "clear;http,http://localhost:12321/{name}-{version}-{sha},readwrite"
         run: |
           mv .github/workflows/scripts/* examples
           cmake -S examples --preset=${{ matrix.os }}-${{ matrix.compiler }}
