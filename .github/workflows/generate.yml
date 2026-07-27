@@ -134,7 +134,7 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config --global user.name 'LEE KYOUNGHEON'
+          git config --global user.name 'automated-bot'
           git config --global user.email 'stripe2933@gmail.com'
           sed -i 's/${{ needs.check-release.outputs.old_version }}/${{ needs.check-release.outputs.new_version }}/g' README.md
           git add generated README.md
