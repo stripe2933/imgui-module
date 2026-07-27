@@ -15,11 +15,17 @@
     },
     {
       "name": "windows-latest-msvc",
-      "inherits": "ci"
+      "inherits": "ci",
+      "cacheVariables": {
+        "VCPKG_TARGET_TRIPLET": "x64-windows-release"
+      }
     },
     {
       "name": "ubuntu-26.04-gcc",
-      "inherits": "ci"
+      "inherits": "ci",
+      "cacheVariables": {
+        "VCPKG_TARGET_TRIPLET": "x64-linux-release"
+      }
     },
     {
       "name": "ubuntu-latest-clang",
