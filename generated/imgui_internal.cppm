@@ -48,9 +48,6 @@ export {
     using ::ImGuiButtonFlags_PressedOnMask_;
     using ::ImGuiButtonFlags_PressedOnDefault_;
 
-    using ::ImGuiComboFlagsPrivate_;
-    using ::ImGuiComboFlags_CustomPreview;
-
     using ::ImGuiContextHookType;
     using ::ImGuiContextHookType_NewFramePre;
     using ::ImGuiContextHookType_NewFramePost;
@@ -148,7 +145,6 @@ export {
 
     using ::ImGuiItemFlagsPrivate_;
     using ::ImGuiItemFlags_ReadOnly;
-    using ::ImGuiItemFlags_MixedValue;
     using ::ImGuiItemFlags_NoWindowHoverableCheck;
     using ::ImGuiItemFlags_AllowOverlap;
     using ::ImGuiItemFlags_NoNavDisableMouseHover;
@@ -478,6 +474,7 @@ export {
     using ::ImGuiTableReconcileColumnData;
     using ::ImGuiTableSettings;
     using ::ImGuiTableTempData;
+    using ::ImGuiTextFilterItem;
     using ::ImGuiTextIndex;
     using ::ImGuiTreeNodeStackData;
     using ::ImGuiTypingSelectRequest;
@@ -638,6 +635,8 @@ export {
     using ::ImInvLength;
     using ::ImIsFloatAboveGuaranteedIntegerPrecision;
     using ::ImIsPowerOfTwo;
+    using ::ImIsTruncated;
+    using ::ImIsTruncated4;
     using ::ImLengthSqr;
     using ::ImLerp;
     using ::ImLineClosestPoint;
@@ -659,8 +658,10 @@ export {
     using ::ImPow;
     using ::ImQsort;
     using ::ImRotate;
-    using ::ImRound64;
+    using ::ImRoundPositive64;
+    using ::ImRoundSigned64;
     using ::ImRsqrt;
+    using ::ImRsqrtPrecise;
     using ::ImSaturate;
     using ::ImSign;
     using ::ImStrSkipBlank;
@@ -845,7 +846,6 @@ namespace ImGui {
     using ImGui::GetCurrentWindowRead;
     using ImGui::GetDefaultFont;
     using ImGui::GetFocusID;
-    using ImGui::GetFontRasterizerDensity;
     using ImGui::GetForegroundDrawList;
     using ImGui::GetHoveredID;
     using ImGui::GetIDWithSeed;
@@ -860,6 +860,7 @@ namespace ImGui {
     using ImGui::GetMouseButtonFromPopupFlags;
     using ImGui::GetMultiSelectState;
     using ImGui::GetNavTweakPressedAmount;
+    using ImGui::GetPixelDensity;
     using ImGui::GetPlatformIO;
     using ImGui::GetPopupAllowedExtentRect;
     using ImGui::GetRoundedFontSize;
@@ -964,6 +965,7 @@ namespace ImGui {
     using ImGui::RenderColorRectWithAlphaCheckerboard;
     using ImGui::RenderDragDropTargetRectEx;
     using ImGui::RenderDragDropTargetRectForItem;
+    using ImGui::RenderDragDropTargetRectForViewport;
     using ImGui::RenderFrame;
     using ImGui::RenderFrameBorder;
     using ImGui::RenderMouseCursor;
@@ -989,7 +991,6 @@ namespace ImGui {
     using ImGui::SetContextName;
     using ImGui::SetCurrentFont;
     using ImGui::SetFocusID;
-    using ImGui::SetFontRasterizerDensity;
     using ImGui::SetHoveredID;
     using ImGui::SetItemKeyOwner;
     using ImGui::SetKeyOwner;
@@ -1001,7 +1002,10 @@ namespace ImGui {
     using ImGui::SetNavWindow;
     using ImGui::SetNextItemColorMarker;
     using ImGui::SetNextItemRefVal;
+    using ImGui::SetNextWindowChildFlags;
+    using ImGui::SetNextWindowFlags;
     using ImGui::SetNextWindowRefreshPolicy;
+    using ImGui::SetPixelDensity;
     using ImGui::SetScrollFromPosX;
     using ImGui::SetScrollFromPosY;
     using ImGui::SetScrollX;
@@ -1033,6 +1037,7 @@ namespace ImGui {
     using ImGui::TabBarGetCurrentTab;
     using ImGui::TabBarGetTabName;
     using ImGui::TabBarGetTabOrder;
+    using ImGui::TabBarGetTabPos;
     using ImGui::TabBarProcessReorder;
     using ImGui::TabBarQueueFocus;
     using ImGui::TabBarQueueReorder;

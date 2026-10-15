@@ -6,7 +6,7 @@ Use ImGui with `import imgui;`. This binding is generated with [cimgui](https://
 
 ## Usage
 
-### Using with Latest ImGui ([v1.92.9b](https://github.com/ocornut/imgui/releases/tag/v1.92.9b))
+### Using with Latest ImGui ([v1.93.0](https://github.com/ocornut/imgui/releases/tag/v1.93.0))
 
 This repository already contains the generated bindings for the latest ImGui version.
 

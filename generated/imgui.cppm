@@ -22,34 +22,43 @@ export {
 
     using ::ImDrawFlags_;
     using ::ImDrawFlags_None;
-    using ::ImDrawFlags_RoundCornersTopLeft;
-    using ::ImDrawFlags_RoundCornersTopRight;
-    using ::ImDrawFlags_RoundCornersBottomLeft;
-    using ::ImDrawFlags_RoundCornersBottomRight;
-    using ::ImDrawFlags_RoundCornersNone;
-    using ::ImDrawFlags_RoundCornersAll;
-    using ::ImDrawFlags_RoundCornersDefault_;
-    using ::ImDrawFlags_RoundCornersTop;
-    using ::ImDrawFlags_RoundCornersBottom;
-    using ::ImDrawFlags_RoundCornersLeft;
-    using ::ImDrawFlags_RoundCornersRight;
-    using ::ImDrawFlags_RoundCornersMask_;
+    using ::ImDrawFlags_RoundTopLeft;
+    using ::ImDrawFlags_RoundTopRight;
+    using ::ImDrawFlags_RoundBottomLeft;
+    using ::ImDrawFlags_RoundBottomRight;
+    using ::ImDrawFlags_RoundNone;
+    using ::ImDrawFlags_RoundAll;
+    using ::ImDrawFlags_RoundTop;
+    using ::ImDrawFlags_RoundBottom;
+    using ::ImDrawFlags_RoundLeft;
+    using ::ImDrawFlags_RoundRight;
     using ::ImDrawFlags_Closed;
+    using ::ImDrawFlags_JoinMiter;
+    using ::ImDrawFlags_CapSquare;
+    using ::ImDrawFlags_AAFill;
+    using ::ImDrawFlags_AALines;
+    using ::ImDrawFlags_AALineEnds;
+    using ::ImDrawFlags_StrokeInside;
+    using ::ImDrawFlags_StrokeCenter;
+    using ::ImDrawFlags_StrokeCenterBiased;
+    using ::ImDrawFlags_StrokeOutside;
+    using ::ImDrawFlags_StrokeLegacy;
+    using ::ImDrawFlags_TextNoPixelSnap;
+    using ::ImDrawFlags_UseTexForRoundCorners;
+    using ::ImDrawFlags_UseVtxOffset;
+    using ::ImDrawFlags_AllowTexForRoundCorners_;
+    using ::ImDrawFlags_RoundMask_;
+    using ::ImDrawFlags_AllowInPushScope_;
+    using ::ImDrawFlags_AllowInFrameScope_;
+    using ::ImDrawFlags_StrokeMask_;
     using ::ImDrawFlags_InvalidMask_;
-
-    using ::ImDrawListFlags_;
-    using ::ImDrawListFlags_None;
-    using ::ImDrawListFlags_AntiAliasedLines;
-    using ::ImDrawListFlags_AntiAliasedLinesUseTex;
-    using ::ImDrawListFlags_AntiAliasedFill;
-    using ::ImDrawListFlags_AllowVtxOffset;
-    using ::ImDrawListFlags_TextNoPixelSnap;
 
     using ::ImFontAtlasFlags_;
     using ::ImFontAtlasFlags_None;
     using ::ImFontAtlasFlags_NoPowerOfTwoHeight;
     using ::ImFontAtlasFlags_NoMouseCursors;
     using ::ImFontAtlasFlags_NoBakedLines;
+    using ::ImFontAtlasFlags_NoBakedRoundCorners;
 
     using ::ImFontFlags_;
     using ::ImFontFlags_None;
@@ -357,6 +366,7 @@ export {
     using ::ImGuiItemFlags_LiveEditOnInputText;
     using ::ImGuiItemFlags_LiveEditOnInputScalar;
     using ::ImGuiItemFlags_LiveEditOnInput;
+    using ::ImGuiItemFlags_MixedValue;
 
     using ::ImGuiKey;
     using ::ImGuiKey_None;
@@ -921,6 +931,7 @@ export {
     using ::ImGuiTextBuffer;
     using ::ImGuiTextFilter;
     using ::ImGuiViewport;
+    using ::ImSmallStack_;
     using ::ImTextureData;
     using ::ImTextureRect;
     using ::ImTextureRef;
@@ -937,7 +948,6 @@ export {
     using ::ImDrawCallback;
     using ::ImDrawFlags;
     using ::ImDrawIdx;
-    using ::ImDrawListFlags;
     using ::ImDrawTextFlags;
     using ::ImFontAtlasFlags;
     using ::ImFontAtlasRectId;

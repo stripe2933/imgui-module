@@ -20,6 +20,7 @@ export {
     using ::ImGui_ImplOpenGL3_Init;
     using ::ImGui_ImplOpenGL3_NewFrame;
     using ::ImGui_ImplOpenGL3_RenderDrawData;
+    using ::ImGui_ImplOpenGL3_SetClipOrigin;
     using ::ImGui_ImplOpenGL3_Shutdown;
     using ::ImGui_ImplOpenGL3_UpdateTexture;
 }

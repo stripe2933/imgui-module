@@ -44,6 +44,7 @@ export {
     using ::ImGui_ImplVulkanH_SelectSurfaceFormat;
     using ::ImGui_ImplVulkan_AddTexture;
     using ::ImGui_ImplVulkan_CreateMainPipeline;
+    using ::ImGui_ImplVulkan_GetRenderState;
     using ::ImGui_ImplVulkan_Init;
     using ::ImGui_ImplVulkan_LoadFunctions;
     using ::ImGui_ImplVulkan_NewFrame;
